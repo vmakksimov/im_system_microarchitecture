@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { Navbar } from "@/widgets/layout";
 import routes from "@/routes";
+import { Dashboard } from "./layouts";
 
 
 function App() {
@@ -19,7 +20,9 @@ function App() {
           ({ path, element }, key) =>
             element && <Route key={key} exact path={path} element={element} />
         )}
+        
         <Route path="*" element={<Navigate to="/home" replace />} />
+        <Route path="/dashboard/*" element={<Dashboard />} />
       </Routes>
     </>
   );
