@@ -9,6 +9,12 @@ const ParticleBackground = () => {
   };
 
   const particlesOptions = {
+    background: {
+      color: {
+        value: "#FFFFFF",
+        
+      },
+    },
     fpsLimit: 280,
     interactivity: {
       events: {
@@ -40,10 +46,10 @@ const ParticleBackground = () => {
     },
     particles: {
       color: {
-        value: "#ffffff",
+        value: "#000000",
       },
       links: {
-        color: "#ffffff",
+        color: "#000000",
         distance: 150,
         enable: true,
         opacity: 0.7,

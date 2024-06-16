@@ -39,7 +39,7 @@ export const routes = [
     ],
   },
   {
-   
+    auth: true,
     name: "tables",
     path: "/tables",
     element: <Tables />,

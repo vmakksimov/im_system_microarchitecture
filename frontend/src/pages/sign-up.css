@@ -6,12 +6,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Full viewport height */
+    /* height: 100vh; */
     background-image: url('/img/signup1.jpg'); /* Background image */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    z-index: -1; /* Ensure it's behind the particles and form */
+ 
   }
   
   .particles-container {

@@ -1,7 +1,7 @@
 import { Input, Checkbox, Button, Typography } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import ParticleBackground from "../widgets/particals/ParticleBackground";
-import "./sign-up.css"; // Import the CSS file
+import "./sign-up.css"; 
 
 
 export function SignUp() {
@@ -46,7 +46,7 @@ export function SignUp() {
             <Input
               type="password"
               size="lg"
-              name="confirmpassword"
+              
               placeholder="********"
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
               labelProps={{

@@ -22,7 +22,8 @@ export function Navbar({ brandName, routes, action }) {
 
   const navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 text-inherit lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
-      {routes.map(({ name, path, icon, href, target }) => (
+      {routes.map(({ name, path, icon, href, target, auth }) => (
+        
         <Typography
           key={name}
           as="li"
@@ -56,6 +57,7 @@ export function Navbar({ brandName, routes, action }) {
             </Link>
           )}
         </Typography>
+        
       ))}
     </ul>
   );
@@ -64,9 +66,9 @@ export function Navbar({ brandName, routes, action }) {
     <MTNavbar color="transparent" className="p-3">
       <div className="container mx-auto flex items-center justify-between text-white">
         <Link to="/">
-          <Typography className="mr-4 ml-2 cursor-pointer py-1.5 font-bold">
+          {/* <Typography className="mr-4 ml-2 cursor-pointer py-1.5 font-bold">
             {brandName}
-          </Typography>
+          </Typography> */}
         </Link>
         <div className="hidden lg:block">{navList}</div>
         {/* <div className="hidden gap-2 lg:flex">

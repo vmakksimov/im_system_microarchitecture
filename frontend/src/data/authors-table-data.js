@@ -4,7 +4,7 @@ export const authorsTableData = [
     name: "John Michael",
     email: "john@creative-tim.com",
     job: ["Manager", "Organization"],
-    online: true,
+    status: ['pending', 'rejected'],
     date: "23/04/18",
   },
   {
@@ -12,7 +12,7 @@ export const authorsTableData = [
     name: "Alexa Liras",
     email: "alexa@creative-tim.com",
     job: ["Programator", "Developer"],
-    online: false,
+    status: ['approved', 'pending', 'rejected'],
     date: "11/01/19",
   },
   {
@@ -20,7 +20,7 @@ export const authorsTableData = [
     name: "Laurent Perrier",
     email: "laurent@creative-tim.com",
     job: ["Executive", "Projects"],
-    online: true,
+    status: ['approved', 'pending', 'rejected'],
     date: "19/09/17",
   },
   {
@@ -28,7 +28,7 @@ export const authorsTableData = [
     name: "Michael Levi",
     email: "michael@creative-tim.com",
     job: ["Programator", "Developer"],
-    online: true,
+    status: ['pending', 'rejected'],
     date: "24/12/08",
   },
   {
@@ -36,7 +36,7 @@ export const authorsTableData = [
     name: "Bruce Mars",
     email: "bruce@creative-tim.com",
     job: ["Manager", "Executive"],
-    online: false,
+    status: ['approved', 'pending', 'rejected'],
     date: "04/10/21",
   },
   {
@@ -44,7 +44,7 @@ export const authorsTableData = [
     name: "Alexander",
     email: "alexander@creative-tim.com",
     job: ["Programator", "Developer"],
-    online: false,
+    status: ['approved', 'pending', 'rejected'],
     date: "14/09/20",
   },
 ];
