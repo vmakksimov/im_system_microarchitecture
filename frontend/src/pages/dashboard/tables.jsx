@@ -10,18 +10,23 @@ import {
 } from "@material-tailwind/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import { authorsTableData, projectsTableData } from "@/data";
+import DashboardNavbar from "@/widgets/layout/dashboard-navbar";
+import routes from "@/routes";
 
 export function Tables() {
 
   const checkStatus = (status) => {
-    console.log('status:', status)
+   
     if (status.includes('approved')){
       return 'approved'
     }
     return 'rejected'
   }
   return (
+    <>
+    <DashboardNavbar routes={routes} />
     <div className="mt-12 mb-8 flex flex-col gap-12">
+     
       <Card>
         <CardHeader variant="gradient" color="gray" className="mb-8 p-6">
           <Typography variant="h6" color="white">
@@ -223,6 +228,7 @@ export function Tables() {
         </CardBody>
       </Card>
     </div>
+    </>
   );
 }
 

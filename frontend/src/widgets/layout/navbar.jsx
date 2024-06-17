@@ -7,6 +7,7 @@ import {
   Typography,
   Button,
   IconButton,
+  Collapse
 } from "@material-tailwind/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
@@ -33,6 +34,7 @@ export function Navbar({ brandName, routes, action }) {
         >
           {href ? (
             <a
+          
               href={href}
               target={target}
               className="flex items-center gap-1 p-1 font-bold"
@@ -71,19 +73,6 @@ export function Navbar({ brandName, routes, action }) {
           </Typography> */}
         </Link>
         <div className="hidden lg:block">{navList}</div>
-        {/* <div className="hidden gap-2 lg:flex">
-          <a
-            href="https://www.material-tailwind.com/blocks?ref=mtkr"
-            target="_blank"
-          >
-            <Button variant="text" size="sm" color="white" fullWidth>
-              pro version
-            </Button>
-          </a>
-          {React.cloneElement(action, {
-            className: "hidden lg:inline-block",
-          })}
-        </div> */}
         <IconButton
           variant="text"
           size="sm"

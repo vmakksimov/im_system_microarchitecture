@@ -31,6 +31,7 @@
     padding: 2rem;
     border-radius: 1rem;
     box-shadow: 0 4px 6px 7px rgba(0, 0, 0, 0.1);
+ 
   }
   
   .form-background form {
@@ -38,6 +39,7 @@
     padding: 2rem;
     border-radius: 1rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
   }
   
   .form-background .text-center {
@@ -48,3 +50,8 @@
     color: #555;
   }
   
+  #close-button {
+    font: bold;
+    font-size: 26px;
+    margin-left: 20px;
+  }

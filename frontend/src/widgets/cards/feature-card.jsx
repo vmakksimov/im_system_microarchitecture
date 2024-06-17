@@ -8,7 +8,12 @@ import {
 
 export function FeatureCard({ color, icon, title, description }) {
   return (
-    <Card className="rounded-lg shadow-lg shadow-gray-500/10">
+    <Card className="rounded-lg shadow-lg shadow-gray-500/10"
+     style={{
+      borderRadius: "25px",
+      border: "1px solid #E5E7EB",
+      boxShadow: "0px 0px 5px 0px"
+      }}>
       <CardBody className="px-8 text-center">
         <IconButton
           variant="gradient"
