@@ -1,12 +1,12 @@
 /* styles.css */
 
 /* Add styles for the background image to cover the entire viewport */
-.signup-section {
+.addcandidate-section {
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 150px auto;
+    margin: 20px auto;
     /* height: 100vh; */
     /* background-image: url('/img/signup1.jpg'); Background image */
     /* background-size: cover;
@@ -25,7 +25,8 @@
   }
   
   .form-background {
-    position: relative;
+    display: flex;
+    flex-direction: column;
     z-index: 2; /* Place it above the particles */
     background: rgba(255, 255, 255, 0.95); /* Semi-transparent white background */
     padding: 2rem;
@@ -53,5 +54,5 @@
   #close-button {
     font: bold;
     font-size: 26px;
-    margin-left: 20px;
+    margin-left: 230px;
   }
