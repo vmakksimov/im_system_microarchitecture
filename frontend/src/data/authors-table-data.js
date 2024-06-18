@@ -6,6 +6,7 @@ export const authorsTableData = [
     job: ["Manager", "Organization"],
     status: ['pending', 'rejected'],
     date: "23/04/18",
+    completion: 2/3,
   },
   {
     img: "/img/team-1.jpeg",
@@ -14,6 +15,7 @@ export const authorsTableData = [
     job: ["Programator", "Developer"],
     status: ['approved', 'pending', 'rejected'],
     date: "11/01/19",
+    completion: 60,
   },
   {
     img: "/img/team-4.jpeg",
@@ -22,6 +24,7 @@ export const authorsTableData = [
     job: ["Executive", "Projects"],
     status: ['approved', 'pending', 'rejected'],
     date: "19/09/17",
+    completion: 60,
   },
   {
     img: "/img/team-3.jpeg",
@@ -30,6 +33,7 @@ export const authorsTableData = [
     job: ["Programator", "Developer"],
     status: ['pending', 'rejected'],
     date: "24/12/08",
+    completion: 60,
   },
   {
     img: "/img/bruce-mars.jpeg",
@@ -38,6 +42,7 @@ export const authorsTableData = [
     job: ["Manager", "Executive"],
     status: ['approved', 'pending', 'rejected'],
     date: "04/10/21",
+    completion: 60,
   },
   {
     img: "/img/team-2.jpeg",
@@ -46,6 +51,7 @@ export const authorsTableData = [
     job: ["Programator", "Developer"],
     status: ['approved', 'pending', 'rejected'],
     date: "14/09/20",
+    completion: 60,
   },
 ];
 

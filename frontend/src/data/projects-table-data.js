@@ -1,64 +1,67 @@
 export const projectsTableData = [
   {
-    img: "/img/logo-xd.svg",
-    name: "Material XD Version",
+    img: "/img/team-2.jpeg",
+    name: "John Doe",
+    email: "john@creative-tim.com",
     members: [
-      { img: "/img/team-1.jpeg", name: "Romina Hadid" },
-      { img: "/img/team-2.jpeg", name: "Ryan Tompson" },
-      { img: "/img/team-3.jpeg", name: "Jessica Doe" },
       { img: "/img/team-4.jpeg", name: "Alexander Smith" },
     ],
-    budget: "$14,000",
+    status: ['approved', 'pending', 'rejected'],
     completion: 60,
+    feedback: false
   },
   {
-    img: "/img/logo-atlassian.svg",
-    name: "Add Progress Track",
+    img: "/img/team-2.jpeg",
+    name: "John Michael",
+    email: "john@creative-tim.com",
     members: [
-      { img: "/img/team-2.jpeg", name: "Ryan Tompson" },
       { img: "/img/team-4.jpeg", name: "Alexander Smith" },
     ],
-    budget: "$3,000",
+    status: ['approved', 'pending', 'rejected'],
     completion: 10,
+    feedback: false
   },
   {
-    img: "/img/logo-slack.svg",
-    name: "Fix Platform Errors",
+    img: "/img/team-2.jpeg",
+    name: "John Smith",
+    email: "john@creative-tim.com",
     members: [
-      { img: "/img/team-3.jpeg", name: "Jessica Doe" },
       { img: "/img/team-1.jpeg", name: "Romina Hadid" },
     ],
-    budget: "Not set",
+    status: ['approved', 'pending', 'rejected'],
     completion: 100,
+    feedback: false
   },
   {
-    img: "/img/logo-spotify.svg",
-    name: "Launch our Mobile App",
+    img: "/img/team-2.jpeg",
+    name: "John Rid",
+    email: "john@creative-tim.com",
     members: [
-      { img: "/img/team-4.jpeg", name: "Alexander Smith" },
-      { img: "/img/team-3.jpeg", name: "Jessica Doe" },
-      { img: "/img/team-2.jpeg", name: "Ryan Tompson" },
       { img: "/img/team-1.jpeg", name: "Romina Hadid" },
     ],
-    budget: "$20,500",
+    status: ['approved', 'pending', 'rejected'],
     completion: 100,
+    feedback: false
   },
   {
-    img: "/img/logo-jira.svg",
-    name: "Add the New Pricing Page",
+    img: "/img/team-2.jpeg",
+    name: "John Hash",
+    email: "john@creative-tim.com",
     members: [{ img: "/img/team-4.jpeg", name: "Alexander Smith" }],
-    budget: "$500",
+    status: ['pending', 'rejected'],
     completion: 25,
+    feedback: false
   },
   {
-    img: "/img/logo-invision.svg",
-    name: "Redesign New Online Shop",
+    img: "/img/team-2.jpeg",
+    name: "John SSS",
+    email: "john@creative-tim.com",
     members: [
-      { img: "/img/team-1.jpeg", name: "Romina Hadid" },
       { img: "/img/team-4.jpeg", name: "Alexander Smith" },
     ],
-    budget: "$2,000",
+    status: ['approved', 'pending', 'rejected'],
     completion: 40,
+    feedback: false
   },
 ];
 
