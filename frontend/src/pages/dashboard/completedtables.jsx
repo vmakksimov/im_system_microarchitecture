@@ -10,8 +10,17 @@ import {
 } from "@material-tailwind/react";
 import { CheckIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
-const CompletedTables = ({checkStatus, isFeedbackSent, projectsTableData}) => {
+const CompletedTables = ({ checkStatus, isFeedbackSent, projectsTableData }) => {
 
+    //TODO remove functionality
+    const remove = (e) => {
+        console.log(e.target.parentElement.parentElement)
+    }
+
+    //TODO send feedback
+    const sendFeedback = (e) => {
+        console.log(e.target.textContent)
+    }
 
     return (
         <Card>
@@ -96,13 +105,11 @@ const CompletedTables = ({checkStatus, isFeedbackSent, projectsTableData}) => {
                                                     variant="small"
                                                     className="mb-1 block text-xs font-medium text-blue-gray-600"
                                                 >
+                                                    {feedback
+                                                        ? <><span><CheckIcon className="h-6 w-6 text-green-500 ml-2" /></span></>
+                                                        : <><span><XMarkIcon className="h-6 w-6 text-red-500 ml-2" /></span></>
+                                                    }
                                                 </Typography>
-                                                {feedback
-                                                    ? <CheckIcon className="h-6 w-6 text-green-500 ml-2" />
-                                                    : <XMarkIcon
-                                                        className="h-6 w-6 text-red-500 ml-2"
-                                                    />
-                                                }
 
                                             </div>
                                         </td>
@@ -113,8 +120,14 @@ const CompletedTables = ({checkStatus, isFeedbackSent, projectsTableData}) => {
                                                 className="text-xs font-semibold text-blue-gray-600"
                                             >
                                                 {checkStatus(status) === 'approved'
-                                                    ? <Button color={!feedback ? 'green' : 'gray'} disabled={feedback} onClick={(e) => { e.preventDefault(); isFeedbackSent(key) }}>SEND JOB OFFER</Button>
-                                                    : <Button color={!feedback ? 'red' : 'gray'} disabled={feedback} onClick={(e) => { e.preventDefault(); isFeedbackSent(key) }}>SEND FEEDBACK</Button>
+                                                    ? <Button
+                                                        color={!feedback ? 'green' : 'gray'}
+                                                        disabled={feedback}
+                                                        onClick={(e) => { e.preventDefault(); isFeedbackSent(key); sendFeedback(e); }}>SEND JOB OFFER</Button>
+                                                    : <Button
+                                                        color={!feedback ? 'red' : 'gray'}
+                                                        disabled={feedback}
+                                                        onClick={(e) => { e.preventDefault(); isFeedbackSent(key); sendFeedback(e); }}>SEND FEEDBACK</Button>
                                                 }
                                             </Typography>
                                         </td>
@@ -124,6 +137,7 @@ const CompletedTables = ({checkStatus, isFeedbackSent, projectsTableData}) => {
                                                 as="a"
                                                 href="#"
                                                 className="text-xs font-semibold text-blue-gray-600"
+                                                onClick={remove}
 
                                             >
                                                 Remove

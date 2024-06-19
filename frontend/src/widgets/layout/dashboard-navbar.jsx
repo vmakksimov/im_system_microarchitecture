@@ -31,15 +31,12 @@ import { AddCandidate } from "@/pages/candidate/add-candidate";
 
 
 
-export function DashboardNavbar() {
+export function DashboardNavbar({isModalOpen, openModal, closeModal, changeButtonValue, buttonValue}) {
   const [controller, dispatch] = useMaterialTailwindController();
   const { fixedNavbar, openSidenav } = controller;
   const { pathname } = useLocation();
   const [layout, page] = pathname.split("/").filter((el) => el !== "");
-  const [isModalOpen, setModalOpen] = useState(false);
 
-  const openModal = () => setModalOpen(true);
-  const closeModal = () => setModalOpen(false);
 
   return (
     <>
@@ -115,7 +112,7 @@ export function DashboardNavbar() {
               variant="text"
               color="blue-gray"
               className="hidden items-center gap-1 px-4 xl:flex normal-case"
-              onClick={openModal}
+              onClick={(e) => {changeButtonValue(e); openModal(); }}
             >
               <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
               ADD Candidate
@@ -220,7 +217,7 @@ export function DashboardNavbar() {
         </div>
 
       </Navbar>
-      {isModalOpen && (
+      {isModalOpen && buttonValue === 'ADD Candidate' &&  (
         <Modal>
           <div className="modal-overlay">
             <div className="modal-box">

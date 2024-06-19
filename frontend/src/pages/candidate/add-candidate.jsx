@@ -1,7 +1,6 @@
-import { Input, Checkbox, Button, Typography, Select, Option } from "@material-tailwind/react";
-import { Link } from "react-router-dom";
-import "./add-candidate.css";
 import { useState } from "react";
+import { Input, Button, Typography, Select, Option } from "@material-tailwind/react";
+import "./add-candidate.css";
 
 
 export function AddCandidate({ close }) {

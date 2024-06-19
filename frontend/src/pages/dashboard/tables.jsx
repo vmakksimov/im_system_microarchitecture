@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import { authorsTableData, projectsTableData as initialProjectsTableData } from "@/data";
 import DashboardNavbar from "@/widgets/layout/dashboard-navbar";
 import routes from "@/routes";
@@ -8,41 +7,26 @@ import InProgressTables from './in-progress-tables';
 
 export function Tables() {
 
+  const [buttonValue, setButtonValue] = useState('');
+
+  const [isModalOpen, setModalOpen] = useState(false);
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
+
   const [projectsTableData, setProjectsTableData] = useState(initialProjectsTableData);
 
   const isFeedbackSent = (index) => {
-      setProjectsTableData(prevState => {
-          const newState = [...prevState];
-          newState[index].feedback = true;
-          return newState;
-      });
+    setProjectsTableData(prevState => {
+      const newState = [...prevState];
+      newState[index].feedback = true;
+      return newState;
+    });
   }
 
-  const [stage, setStage] = useState(3); // Initial stage is 1
-  
-  // Function to handle next stage
-  const handleNextStage = () => {
-    setStage(prevStage => (prevStage < 3 ? prevStage + 1 : 3));
-  };
+  const changeButtonValue = (e) => {
+    setButtonValue(e.target.textContent)
+}
 
-  // Function to handle previous stage
-  const handlePrevStage = () => {
-    setStage(prevStage => (prevStage > 1 ? prevStage - 1 : 1));
-  };
-
-  // Map stage to progress percentage
-  const stageToProgress = (stage) => {
-    switch (stage) {
-      case 1:
-        return 33.33;
-      case 2:
-        return 66.66;
-      case 3:
-        return 100;
-      default:
-        return 0;
-    }
-  }
 
   const checkStatus = (value) => {
 
@@ -53,19 +37,30 @@ export function Tables() {
   }
   return (
     <>
-      <DashboardNavbar routes={routes} />
+      <DashboardNavbar
+        routes={routes}
+        isModalOpen={isModalOpen}
+        openModal={openModal}
+        closeModal={closeModal}
+        changeButtonValue={changeButtonValue}
+        buttonValue={buttonValue}
+      />
       <div className="mt-12 mb-8 flex flex-col gap-12">
 
         <InProgressTables
           checkStatus={checkStatus}
-          stageToProgress={stageToProgress}
-          stage={stage}
-          authorsTableData={authorsTableData}/>
+          authorsTableData={authorsTableData}
+          isModalOpen={isModalOpen}
+          openModal={openModal}
+          closeModal={closeModal}
+          changeButtonValue={changeButtonValue}
+          buttonValue={buttonValue}
+        />
         <CompletedTables
-        checkStatus={checkStatus}
-        isFeedbackSent={isFeedbackSent}
-        projectsTableData={projectsTableData}
-        /> 
+          checkStatus={checkStatus}
+          isFeedbackSent={isFeedbackSent}
+          projectsTableData={projectsTableData}
+        />
       </div>
     </>
   );
