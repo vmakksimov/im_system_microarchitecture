@@ -10,7 +10,15 @@ import {
 } from "@material-tailwind/react";
 import { CheckIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
-const CompletedTables = ({ checkStatus, isFeedbackSent, projectsTableData }) => {
+const CompletedTables = ({ isFeedbackSent, projectsTableData }) => {
+
+    const checkStatus = (value) => {
+
+        if (value.includes('approved')) {
+          return 'approved'
+        }
+        return 'rejected'
+      }
 
     //TODO remove functionality
     const remove = (e) => {

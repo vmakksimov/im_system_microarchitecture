@@ -25,13 +25,9 @@ import {
   setOpenConfigurator,
   setOpenSidenav,
 } from "@/context";
-import Modal from "./modal/modal";
-import { useState } from "react";
-import { AddCandidate } from "@/pages/candidate/add-candidate";
 
 
-
-export function DashboardNavbar({isModalOpen, openModal, closeModal, changeButtonValue, buttonValue}) {
+export function DashboardNavbar({ openModal, changeButtonValue }) {
   const [controller, dispatch] = useMaterialTailwindController();
   const { fixedNavbar, openSidenav } = controller;
   const { pathname } = useLocation();
@@ -217,15 +213,7 @@ export function DashboardNavbar({isModalOpen, openModal, closeModal, changeButto
         </div>
 
       </Navbar>
-      {isModalOpen && buttonValue === 'ADD Candidate' &&  (
-        <Modal>
-          <div className="modal-overlay">
-            <div className="modal-box">
-              <AddCandidate close={closeModal}/>
-            </div>
-          </div>
-        </Modal>
-      )}
+      
     </>
   );
 }

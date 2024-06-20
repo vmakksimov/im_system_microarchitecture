@@ -5,7 +5,7 @@ import "./edit-candidate.css";
 export function EditCandidateInfo({ close, candidate, handleCandidateUpdate }) {
     const [formData, setFormData] = useState({
         stage: '',
-        job: 'Manager',
+        job: '',
         status: 'Choose',
         date: ''
     });
@@ -13,12 +13,12 @@ export function EditCandidateInfo({ close, candidate, handleCandidateUpdate }) {
     useEffect(() => {
         if (candidate) {
             setFormData({
-                img: candidate.img,
-                email: candidate.email,
-                stage: candidate.stage,
-                job: candidate.job,
-                status: candidate.status,
-                date: candidate.date
+                img: candidate.img || '',
+                email: candidate.email || '',
+                stage: candidate.stage || '',
+                job: candidate.job || '',
+                status: candidate.status || '',
+                date: candidate.date || ''
             });
         }
     }, [candidate]);
@@ -38,6 +38,8 @@ export function EditCandidateInfo({ close, candidate, handleCandidateUpdate }) {
             ...candidate,
             ...formData,
         });
+
+        // TODO Edit service
     };
 
     return (
@@ -56,10 +58,10 @@ export function EditCandidateInfo({ close, candidate, handleCandidateUpdate }) {
                         <select
                             size="md"
                             name="job"
-                    
-                            value={formData.job}
+                            style={{ border: "1px solid rgb(176 190 197)" }}
+                            value={formData.job || ''}
                             onChange={handleChange}
-                            className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                            className=" !border-t-blue-gray-200 focus:!border-t-gray-900 px-3 py-2 rounded-lg"
                             
 
                         >
@@ -72,7 +74,7 @@ export function EditCandidateInfo({ close, candidate, handleCandidateUpdate }) {
                         </Typography>
                         <select
                             name="stage"
-                            value={formData.stage}
+                            value={formData.stage || ''}
                             onChange={handleChange}
                             style={{ border: "1px solid rgb(176 190 197)" }}
                             className=" !border-t-blue-gray-200 focus:!border-t-gray-900 px-3 py-2 rounded-lg"
@@ -86,7 +88,7 @@ export function EditCandidateInfo({ close, candidate, handleCandidateUpdate }) {
                         </Typography>
                         <input
                             name="date"
-                            value={formData.date}
+                            value={formData.date || ''}
                             onChange={handleChange}
                             size="md"
                             type="date"
@@ -98,7 +100,7 @@ export function EditCandidateInfo({ close, candidate, handleCandidateUpdate }) {
                         </Typography>
                         <select
                             name="status"
-                            value={formData.status}
+                            value={formData.status || ''}
                             onChange={handleChange}
                             style={{ border: "1px solid rgb(176 190 197)" }}
                             className=" !border-t-blue-gray-200 focus:!border-t-gray-900 px-3 py-2 rounded-lg"

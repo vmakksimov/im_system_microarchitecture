@@ -5,15 +5,14 @@ import {
   CardHeader,
   Typography,
   Button,
-  IconButton,
   Input,
   Textarea,
   Checkbox,
 } from "@material-tailwind/react";
-import { FingerPrintIcon, UsersIcon } from "@heroicons/react/24/solid";
+import { FingerPrintIcon} from "@heroicons/react/24/solid";
 import { PageTitle, Footer } from "@/widgets/layout";
-import { FeatureCard, TeamCard } from "@/widgets/cards";
-import { featuresData, teamData, contactData } from "@/data";
+import { FeatureCard } from "@/widgets/cards";
+import { featuresData,} from "@/data";
 
 export function Home() {
   return (
