@@ -30,6 +30,7 @@ export function AddCandidate({ close, addCandidate }) {
         e.preventDefault();
         console.log(formData)
         addCandidate(formData);
+        //TODO  make api call to the backend
     };
    
     return (
