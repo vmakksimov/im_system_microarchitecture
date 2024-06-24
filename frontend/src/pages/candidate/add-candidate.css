@@ -7,7 +7,7 @@
     justify-content: center;
     align-items: center;
     margin: 20px auto;
-    /* height: 100vh; */
+    height: 100vh;
     /* background-image: url('/img/signup1.jpg'); Background image */
     /* background-size: cover;
     background-position: center;
@@ -29,7 +29,7 @@
     flex-direction: column;
     z-index: 2; /* Place it above the particles */
     background: rgba(255, 255, 255, 0.95); /* Semi-transparent white background */
-    padding: 2rem;
+    padding: 3rem;
     border-radius: 1rem;
     box-shadow: 0 4px 6px 7px rgba(0, 0, 0, 0.1);
  
