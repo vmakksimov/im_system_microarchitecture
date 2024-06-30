@@ -95,6 +95,7 @@ const CandidateTable = ({ candidateData, changeButtonValue, setSelectedCandidate
                                     onClick={(e) => {
                                         changeButtonValue(e);
                                         setSelectedCandidate({ img, name, email, job, status, date, stage });
+                                        console.log("Selected Candidate:", { img, name, email, job, status, date, stage });
                                         openModal();
                                     }}
                                 >

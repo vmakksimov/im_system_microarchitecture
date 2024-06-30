@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { Button, Typography } from "@material-tailwind/react";
+import { useAppDispatch } from "../../app/hooks"; // Import useAppDispatch for Redux
 import "./edit-candidate.css";
 
 export function EditCandidateInfo({ close, candidate, handleCandidateUpdate }) {
+    const dispatch = useAppDispatch(); // Redux dispatch hook
     const [formData, setFormData] = useState({
         stage: '',
         job: '',
@@ -31,16 +33,26 @@ export function EditCandidateInfo({ close, candidate, handleCandidateUpdate }) {
         }));
     };
 
-    const handleSubmit = (e) => {
-        console.log('candindate in submit', candidate)
-        e.preventDefault();
-        handleCandidateUpdate({
-            ...candidate,
-            ...formData,
-        });
+    // const handleSubmit = (e) => {
+    //     console.log('candindate in submit', candidate)
+    //     e.preventDefault();
+    //     handleCandidateUpdate({
+    //         ...candidate,
+    //         ...formData,
+    //     });
+         
 
-        // TODO Edit service
-    };
+    //     // TODO Edit service
+    // };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const updatedCandidate = {
+          ...candidate,
+          ...formData,
+        };
+        dispatch(handleCandidateUpdate(updatedCandidate)); // Dispatch action to update candidate data in Redux store
+        close(); // Close the modal after updating
+      };
 
     return (
         <section className="addcandidate-section">
