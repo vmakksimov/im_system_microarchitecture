@@ -11,8 +11,8 @@ export function AddCandidate({ close, addCandidate }) {
         email: '',
         name: '',
         date: '',
-        stage: '',
-        job: '',
+        stage: '1',
+        job: 'Developer',
         status: 'Pending',
     });
 

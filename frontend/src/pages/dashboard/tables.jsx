@@ -45,10 +45,7 @@ export function Tables() {
     dispatch(setProjectsTableData(initialProjectsTableData));
   }, []);
 
-  const openModal = () => {
-    console.log('open modal')
-    dispatch(setModalOpen(true))
-  };
+  const openModal = () => dispatch(setModalOpen(true));
   const closeModal = () => dispatch(setModalOpen(false));
 
   // console.log('candidate data1', candidateData)
@@ -66,6 +63,7 @@ export function Tables() {
         candidate.name === updatedCandidate.name ? updatedCandidate : candidate
       )
     ));
+    console.log("updated data after dispach",candidateData)
     closeModal();
   };
 
@@ -74,7 +72,7 @@ export function Tables() {
     // setCandidateData(prevData => [...prevData, newCandidate])
     dispatch(setCandidateData([...candidateData, newCandidate]));
     closeModal();
-    console.log(candidateData)
+    console.log("new candidate after update",candidateData)
 
     // setCandidateData(...candidateData, newCandidate);
     // closeModal();
@@ -98,14 +96,8 @@ export function Tables() {
     dispatch(setButtonValue(e.target.textContent));
   }
 
-  const setCandidate = (e) => {
-    console.log('ismodalOpen', isModalOpen)
-    console.log('buttonValue', buttonValue)
-    console.log('selectedCandidate', selectedCandidate)
-    console.log('e.target', e)
-    // setButtonValue(e.target.textContent)
-    dispatch(setSelectedCandidate(e));
-    console.log(selectedCandidate)
+  const setCandidate = (data) => {
+    dispatch(setSelectedCandidate(data));
   }
   
 
@@ -173,6 +165,7 @@ export function Tables() {
                     close={closeModal}
                     candidate={selectedCandidate}
                     handleCandidateUpdate={handleCandidateUpdate}
+                    candidateData={candidateData} // Pass candidateData here
                   />
                 </div>
               </div>

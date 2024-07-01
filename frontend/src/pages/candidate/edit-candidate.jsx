@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { Button, Typography } from "@material-tailwind/react";
-import { useAppDispatch } from "../../app/hooks"; // Import useAppDispatch for Redux
+import { useAppDispatch } from "../../app/hooks";
+import { setCandidateData } from "../../features/tables/tables-slice"; // Import the action
 import "./edit-candidate.css";
 
-export function EditCandidateInfo({ close, candidate, handleCandidateUpdate }) {
+export function EditCandidateInfo({ close, candidate, candidateData }) {
     const dispatch = useAppDispatch(); // Redux dispatch hook
     const [formData, setFormData] = useState({
         stage: '',
@@ -33,26 +34,20 @@ export function EditCandidateInfo({ close, candidate, handleCandidateUpdate }) {
         }));
     };
 
-    // const handleSubmit = (e) => {
-    //     console.log('candindate in submit', candidate)
-    //     e.preventDefault();
-    //     handleCandidateUpdate({
-    //         ...candidate,
-    //         ...formData,
-    //     });
-         
-
-    //     // TODO Edit service
-    // };
     const handleSubmit = (e) => {
         e.preventDefault();
         const updatedCandidate = {
           ...candidate,
           ...formData,
         };
-        dispatch(handleCandidateUpdate(updatedCandidate)); // Dispatch action to update candidate data in Redux store
+
+        const updatedCandidateData = candidateData.map(cand =>
+          cand.email === updatedCandidate.email ? updatedCandidate : cand
+        );
+
+        dispatch(setCandidateData(updatedCandidateData)); // Dispatch the action
         close(); // Close the modal after updating
-      };
+    };
 
     return (
         <section className="addcandidate-section">
@@ -73,9 +68,7 @@ export function EditCandidateInfo({ close, candidate, handleCandidateUpdate }) {
                             style={{ border: "1px solid rgb(176 190 197)" }}
                             value={formData.job || ''}
                             onChange={handleChange}
-                            className=" !border-t-blue-gray-200 focus:!border-t-gray-900 px-3 py-2 rounded-lg"
-                            
-
+                            className="!border-t-blue-gray-200 focus:!border-t-gray-900 px-3 py-2 rounded-lg"
                         >
                             <option value="Developer">Developer</option>
                             <option value="Designer">Designer</option>
@@ -89,7 +82,7 @@ export function EditCandidateInfo({ close, candidate, handleCandidateUpdate }) {
                             value={formData.stage || ''}
                             onChange={handleChange}
                             style={{ border: "1px solid rgb(176 190 197)" }}
-                            className=" !border-t-blue-gray-200 focus:!border-t-gray-900 px-3 py-2 rounded-lg"
+                            className="!border-t-blue-gray-200 focus:!border-t-gray-900 px-3 py-2 rounded-lg"
                         >
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -115,7 +108,7 @@ export function EditCandidateInfo({ close, candidate, handleCandidateUpdate }) {
                             value={formData.status || ''}
                             onChange={handleChange}
                             style={{ border: "1px solid rgb(176 190 197)" }}
-                            className=" !border-t-blue-gray-200 focus:!border-t-gray-900 px-3 py-2 rounded-lg"
+                            className="!border-t-blue-gray-200 focus:!border-t-gray-900 px-3 py-2 rounded-lg"
                         >
                             <option value="Choose">Choose</option>
                             <option value="pending">Pending</option>

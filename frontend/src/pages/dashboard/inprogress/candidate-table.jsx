@@ -18,6 +18,20 @@ const CandidateTable = ({ candidateData, changeButtonValue, setSelectedCandidate
                 return 0;
         }
     }
+
+    const getStatusColor = (status) => {
+        switch(status){
+            case 'pending':
+                return 'gray';
+            case 'approved':
+                return 'green'
+            case 'rejected':
+                return 'red'
+            default:
+                return 'gray'
+            
+        }
+    }
     return (
         <tbody>
             {candidateData.map(
@@ -54,12 +68,7 @@ const CandidateTable = ({ candidateData, changeButtonValue, setSelectedCandidate
                             <td className={className}>
                                 <Chip
                                     variant="gradient"
-                                    color=
-                                    {
-                                        status == 'pending' ? 'gray'
-                                            : status == 'approved' && 'green'
-                                            || status == 'rejected' && 'red'
-                                    }
+                                    color={getStatusColor(status)}
                                     value={status}
                                     className="py-0.5 px-2 text-[11px] font-medium w-fit"
                                 />
