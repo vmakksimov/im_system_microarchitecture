@@ -16,7 +16,7 @@ export function AddCandidate({ close, addCandidate }) {
         status: 'Pending',
     });
 
-      const handleChange = (e) => {
+    const handleChange = (e) => {
         console.log("in handle change", e.target.value)
         const { name, value } = e.target;
         setFormData(prevData => ({
@@ -38,14 +38,14 @@ export function AddCandidate({ close, addCandidate }) {
         e.preventDefault();
         console.log(formData)
         let isEmpty = hasEmptyValues(formData)
-        if (isEmpty){
+        if (isEmpty) {
             alert("Please fill all the fields")
             return
         }
         addCandidate(formData);
         //TODO  make api call to the backend
     };
-   
+
     return (
         <section className="addcandidate-section" >
 
@@ -57,7 +57,7 @@ export function AddCandidate({ close, addCandidate }) {
                 </div>
                 {hasEmptyValues(formData) && <p style={{ color: "red", marginLeft: "26px", marginTop: "4px" }}>All the fields below are required!</p>}
                 <form className="mt-8 mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2" onSubmit={handleSubmit}>
-                
+
                     <div className="mb-1 flex flex-col gap-6">
                         <Typography variant="small" color="blue-gray" className="-mb-5 font-medium">
                             Email
@@ -69,7 +69,7 @@ export function AddCandidate({ close, addCandidate }) {
                             value={formData.email}
                             onChange={handleChange}
                             className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                           
+
                         />
                         <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
                             Full Name
@@ -82,9 +82,9 @@ export function AddCandidate({ close, addCandidate }) {
                             value={formData.name}
                             onChange={handleChange}
                             className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                           
+
                         />
-                        
+
                         <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
                             Date for interview
                         </Typography>
@@ -94,7 +94,7 @@ export function AddCandidate({ close, addCandidate }) {
                             name="date"
                             value={formData.date}
                             onChange={handleChange}
-                            
+
                             className="input-date !border-t-blue-gray-200 focus:!border-t-gray-900 px-3 py-2 rounded-lg"
                             style={{ border: "1px solid rgb(176 190 197)" }}
                         />
