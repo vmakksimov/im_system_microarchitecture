@@ -12,7 +12,7 @@ export const request = async (url, method, data) => {
         }
 
         const options = {
-            baseURL: 'https://jsonplaceholder.typicode.com',
+            baseURL: 'http://localhost:3030',
             url,
             method,
             headers,
