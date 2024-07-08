@@ -13,12 +13,36 @@ from .manager import CustomManager
 
 
 class CustomModelUser(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
-    USER_NAME_MAX_LENGTH = 25
+    EMAIL_NAME_MAX_LENGTH = 50
+    FIRST_NAME_MAX_LENGTH = 30
+    LAST_NAME_MAX_LENGTH = 30
+
+    USERNAME_NAME_MAX_LENGTH = 30
 
     email = models.CharField(
-        max_length=USER_NAME_MAX_LENGTH,
+        max_length=EMAIL_NAME_MAX_LENGTH,
         unique=True,
     )
+
+    username = models.CharField(
+        max_length=USERNAME_NAME_MAX_LENGTH,
+        unique=True,
+        default='',
+    )
+
+    first_name = models.CharField(
+        max_length=FIRST_NAME_MAX_LENGTH,
+        default='',
+        
+    )
+
+    last_name = models.CharField(
+        max_length=LAST_NAME_MAX_LENGTH,
+        default='',
+        
+    )
+
+
 
     date_joined = models.DateTimeField(
         auto_now_add=True,

@@ -4,6 +4,7 @@ from django.shortcuts import redirect
 from django.core.exceptions import ValidationError
 from urllib.parse import urlencode
 from typing import Dict, Any
+from auth_users.models import CustomModelUser
 import requests
 import jwt
 
@@ -57,7 +58,7 @@ def get_user_data(validated_data):
     user_data = google_get_user_info(access_token=access_token)
 
     # Creates user in DB if first time login
-    User.objects.get_or_create(
+    CustomModelUser.objects.get_or_create(
         username = user_data['email'],
         email = user_data['email'],
         first_name = user_data.get('given_name'), 

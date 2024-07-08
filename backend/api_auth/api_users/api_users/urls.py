@@ -23,4 +23,5 @@ urlpatterns = [
     path('', RedirectView.as_view(url='/admin/')),  # Redirect root to admin interface
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
+    path('auth/', include('auth_users.urls')),
 ]
