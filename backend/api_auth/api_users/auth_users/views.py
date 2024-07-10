@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 from django.conf import settings
 from django.contrib.auth import login
 from rest_framework.views import APIView
+from rest_framework.response import Response
 from .serializers import AuthSerializer
 
 from django.contrib.auth import logout
@@ -24,11 +25,12 @@ class GoogleLoginApi(APIView):
         user = CustomModelUser.objects.get(email=user_data['email'])
         login(request, user)
         print("base", os.environ.get("BASE_APP_URL"))
+        token = user_data['token']
+        frontend_url = os.environ.get("BASE_APP_URL")
+        return redirect(frontend_url + f'?token={token}')
 
-        return redirect(os.environ.get("BASE_APP_URL"))
+        # return redirect(os.environ.get("BASE_APP_URL"))
     
-
-
 
 class LogoutApi(APIView):
     def get(self, request, *args, **kwargs):

@@ -3,6 +3,7 @@ import { Navbar } from "@/widgets/layout";
 import { Tables } from "./pages/dashboard";
 import {useAppDispatch, useAppSelector} from "./app/hooks";
 import routes from "@/routes";
+import AuthCallback from './services/auth-callback';
 
 
 function App(){
@@ -29,6 +30,8 @@ function App(){
 
         <Route path="*" element={<Navigate to="/home" replace />} />
         <Route path="/tables/*" element={<Tables />} />
+        <Route path="/auth/callback" element={<AuthCallback />} />
+        
       
       </Routes>
     </>

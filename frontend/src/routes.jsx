@@ -8,6 +8,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { Tables, Notifications } from "@/pages/dashboard";
 import { Home, SignIn, SignUp } from "@/pages";
+import AuthCallback from "./services/auth-callback";
 
 
 const icon = {
@@ -54,6 +55,11 @@ export const routes = [
     name: "Sign Up",
     path: "/sign-up",
     element: <SignUp />,
+  },
+  {
+    name: "Auth Callback",
+    path: "/auth/callback",
+    element: <AuthCallback />,
   },
   {
     name: "Docs",

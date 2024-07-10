@@ -42,6 +42,15 @@ def google_get_user_info(access_token: str) -> Dict[str, Any]:
     
     return response.json()
 
+def create_jwt_token(user):
+    payload = {
+        'user_id': user.id,
+        'email': user.email,
+        # Add any other relevant user info
+    }
+    token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
+    return token
+
 
 def get_user_data(validated_data):
     domain = os.environ.get("BASE_API_URL")
@@ -58,16 +67,19 @@ def get_user_data(validated_data):
     user_data = google_get_user_info(access_token=access_token)
 
     # Creates user in DB if first time login
-    CustomModelUser.objects.get_or_create(
+    user, created = CustomModelUser.objects.get_or_create(
         username = user_data['email'],
         email = user_data['email'],
         first_name = user_data.get('given_name'), 
         last_name = user_data.get('family_name')
     )
+
+    token = create_jwt_token(user)
     
     profile_data = {
         'email': user_data['email'],
         'first_name': user_data.get('given_name'),
         'last_name': user_data.get('family_name'),
+        'token': token
     }
     return profile_data
