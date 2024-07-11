@@ -15,9 +15,9 @@ from .manager import CustomManager
 class CustomModelUser(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
     EMAIL_NAME_MAX_LENGTH = 50
     FIRST_NAME_MAX_LENGTH = 30
-    LAST_NAME_MAX_LENGTH = 30
+    LAST_NAME_MAX_LENGTH = 40
 
-    USERNAME_NAME_MAX_LENGTH = 30
+    USERNAME_NAME_MAX_LENGTH = 40
 
     email = models.CharField(
         max_length=EMAIL_NAME_MAX_LENGTH,

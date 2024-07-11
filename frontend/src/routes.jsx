@@ -1,72 +1,46 @@
-import {
-  HomeIcon,
-  UserCircleIcon,
-  TableCellsIcon,
-  InformationCircleIcon,
-  ServerStackIcon,
-  RectangleStackIcon,
-} from "@heroicons/react/24/solid";
 import { Tables, Notifications } from "@/pages/dashboard";
 import { Home, SignIn, SignUp } from "@/pages";
 import AuthCallback from "./services/auth-callback";
 
-
-const icon = {
-  className: "w-5 h-5 text-inherit",
-};
-
-export const routes = [
-  {
-    layout: "dashboard",
-    pages: [
-      
-      {
-        icon: <TableCellsIcon {...icon} />,
-        name: "tables",
-        path: "/tables",
-        element: <Tables />,
-      },
-      {
-        icon: <InformationCircleIcon {...icon} />,
-        name: "notifications",
-        path: "/notifications",
-        element: <Notifications />,
-      },
-    ],
-  },
-  {
-    auth: true,
-    name: "tables",
-    path: "/tables",
-    element: <Tables />,
-  },
+export const publicRoutes = [
   {
     name: "home",
     path: "/home",
     element: <Home />,
   },
-
   {
-    name: "Sign In",
+    name: "sign-in",
     path: "/sign-in",
     element: <SignIn />,
   },
   {
-    name: "Sign Up",
+    name: "sign-up",
     path: "/sign-up",
     element: <SignUp />,
   },
   {
-    name: "Auth Callback",
+    name: "auth-callback",
     path: "/auth/callback",
     element: <AuthCallback />,
   },
+];
+
+export const privateRoutes = [
   {
-    name: "Docs",
-    href: "https://www.material-tailwind.com/docs/react/installation",
-    target: "_blank",
-    element: "",
+    name: "home",
+    path: "/home",
+    element: <Home />,
+  },
+  {
+    name: "tables",
+    path: "/tables",
+    element: <Tables />,
+  },
+  {
+    name: "notifications",
+    path: "/notifications",
+    element: <Notifications />,
   },
 ];
 
-export default routes;
+export default { publicRoutes, privateRoutes };
