@@ -11,12 +11,15 @@ function App(){
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
   const isAuthenticated = Boolean(localStorage.getItem("authToken"));
-
   const applicableRoutes = isAuthenticated ? privateRoutes : publicRoutes;
 
   console.log('aplicable', applicableRoutes)
   function handleClick() {
     dispatch(amountAdded(10));
+  }
+
+  function logout(){
+    
   }
   
   return (

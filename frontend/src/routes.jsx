@@ -1,5 +1,6 @@
 import { Tables, Notifications } from "@/pages/dashboard";
 import { Home, SignIn, SignUp } from "@/pages";
+import Logout from "./pages/logout";
 import AuthCallback from "./services/auth-callback";
 
 export const publicRoutes = [
@@ -18,11 +19,6 @@ export const publicRoutes = [
     path: "/sign-up",
     element: <SignUp />,
   },
-  {
-    name: "auth-callback",
-    path: "/auth/callback",
-    element: <AuthCallback />,
-  },
 ];
 
 export const privateRoutes = [
@@ -35,6 +31,11 @@ export const privateRoutes = [
     name: "tables",
     path: "/tables",
     element: <Tables />,
+  },
+  {
+    name: "logout",
+    path: "/logout",
+    element: <Logout />,
   },
   {
     name: "notifications",
