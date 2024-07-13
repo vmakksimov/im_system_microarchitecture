@@ -1,10 +1,15 @@
 // Logout.jsx
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {useContext } from 'react'
+import {AuthContext} from '../context/AuthContext'
 import axios from 'axios';
 
 const Logout = () => {
   const navigate = useNavigate();
+
+  const {userLogout} = useContext(AuthContext);
+
 
   useEffect(() => {
     // Notify the backend to log out the user

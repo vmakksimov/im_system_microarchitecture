@@ -40,6 +40,7 @@ def google_get_user_info(access_token: str) -> Dict[str, Any]:
     if not response.ok:
         raise ValidationError('Could not get user info from Google.')
     
+    print("response from json",response.json())
     return response.json()
 
 def create_jwt_token(user):
@@ -73,6 +74,9 @@ def get_user_data(validated_data):
         first_name = user_data.get('given_name'), 
         last_name = user_data.get('family_name')
     )
+
+    users = CustomModelUser.objects.all()
+    print("users", users)
 
     token = create_jwt_token(user)
     
