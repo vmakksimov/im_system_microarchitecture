@@ -3,7 +3,7 @@ import * as request from './request'
 const baseUrl = '/users'
 
 export const login = (email, password) => request.post(`/login`, { email, password })
-export const register = (email, password, username, image, first_name, last_name, usertype) => request.post(`/register`, { email, password, username, image, first_name, last_name, usertype })
+export const register = (email, password) => request.post(`/register`, { email, password})
 export const logout = async (accessToken) => {
     try {
         const response = await fetch(`/logout`, {

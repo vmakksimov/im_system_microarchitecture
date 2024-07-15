@@ -2,17 +2,18 @@ import axios from 'axios';
 
 export const request = async (url, method, data) => {
     try {
-        const user = localStorage.getItem('auth');
+        const user = localStorage.getItem('authToken');
         const auth = JSON.parse(user || '{}');
 
         const headers = {};
-
+        
+        console.log('authhh', auth)
         if (auth.accessToken) {
             headers['X-Authorization'] = auth.accessToken;
         }
 
         const options = {
-            baseURL: 'http://localhost:3030',
+            baseURL: 'http://localhost:8000',
             url,
             method,
             headers,
