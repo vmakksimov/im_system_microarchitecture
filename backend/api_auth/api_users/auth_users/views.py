@@ -1,19 +1,41 @@
 import os
 from django.shortcuts import render
-from .services import get_user_data
 from django.shortcuts import redirect
 from django.conf import settings
 from django.contrib.auth import login
+from django.contrib.auth import logout
+from django.http import HttpResponse
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import AuthSerializer
-
-from django.contrib.auth import logout
 from rest_framework.views import APIView
-from django.http import HttpResponse
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
+from rest_framework import status, viewsets
 from auth_users.models import CustomModelUser
+from .services import get_user_data
+from .serializers import AuthSerializer
+from .models import CustomModelUser
+from .serializers import UserRegistrationSerializer
+
 
 # views that handle 'localhost://8000/auth/api/login/google/'
+class RegisterViewAPI(APIView):
+    permission_classes = [AllowAny]
+    serializer_class = UserRegistrationSerializer
+
+    def post(self, request):
+        serializer = UserRegistrationSerializer(data=request.data)
+        user = CustomModelUser.objects.all()
+        #TODO implement the registration logic
+        if serializer.is_valid():
+            user = serializer.save()
+            if user:
+                json = serializer.data
+                
+                ### TODO unmark to send email notification to register user
+                #send_email_to_user(user.email)
+                return Response(json, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 class GoogleLoginApi(APIView):
     def get(self, request, *args, **kwargs):
         auth_serializer = AuthSerializer(data=request.GET)

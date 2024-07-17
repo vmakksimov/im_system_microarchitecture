@@ -6,8 +6,7 @@ export const request = async (url, method, data) => {
         const auth = JSON.parse(user || '{}');
 
         const headers = {};
-        
-        console.log('authhh', auth)
+
         if (auth.accessToken) {
             headers['X-Authorization'] = auth.accessToken;
         }
@@ -25,7 +24,7 @@ export const request = async (url, method, data) => {
         }
 
         const response = await axios(options);
-        
+
         return response.data;
     } catch (error) {
         console.error('Error making request:', error);
@@ -33,7 +32,7 @@ export const request = async (url, method, data) => {
     }
 };
 
-export const get = request.bind(null, 'GET');
-export const post = request.bind(null, 'POST');
-export const put = request.bind(null, 'PUT');
-export const del = request.bind(null, 'DELETE');
+export const get = (url, data) => request(url, 'GET', data);
+export const post = (url, data) => request(url, 'POST', data);
+export const put = (url, data) => request(url, 'PUT', data);
+export const del = (url, data) => request(url, 'DELETE', data);

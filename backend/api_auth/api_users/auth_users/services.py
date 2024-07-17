@@ -75,8 +75,6 @@ def get_user_data(validated_data):
         last_name = user_data.get('family_name')
     )
 
-    users = CustomModelUser.objects.all()
-    print("users", users)
 
     token = create_jwt_token(user)
     

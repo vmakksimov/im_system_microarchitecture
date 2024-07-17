@@ -1,10 +1,10 @@
-from django.contrib.auth import base_user as auth_base
-from django.contrib.auth.hashers import make_password
-from django.contrib.auth.models import User
-from django.contrib.auth.models import User, PermissionsMixin, UserManager
+# from django.contrib.auth import base_user as auth_base
+# from django.contrib.auth.hashers import make_password
+# from django.contrib.auth.models import User
+# from django.contrib.auth.models import User, PermissionsMixin, UserManager
 
 
-from django.core.validators import MinLengthValidator
+# from django.core.validators import MinLengthValidator
 from django.db import models
 from django.contrib.auth import models as auth_models
 
