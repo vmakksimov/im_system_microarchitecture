@@ -10,6 +10,12 @@ import ParticleBackground from "../widgets/particals/ParticleBackground";
 import "./sign-in.css"
 
 export function SignIn() {
+  const onLogin = (e) => {
+    e.preventDefault()
+    console.log("onLogin")
+    const { email, password } = Object.fromEntries(new FormData(e.target))
+    console.log(email, password)
+  }
   return (
     <section className="sign-in-container">
       <div className="particles-container" >
@@ -28,7 +34,7 @@ export function SignIn() {
             Enter your email and password to Sign In.
           </Typography>
         </div>
-        <form className="mt-8 mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2" style={{width: "80%"}}>
+        <form className="mt-8 mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2" style={{width: "80%"}} onSubmit={onLogin}>
           <div className="mb-1 flex flex-col gap-6">
             <Typography
               variant="small"
@@ -40,6 +46,7 @@ export function SignIn() {
             <Input
               size="lg"
               placeholder="name@mail.com"
+              name="email"
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
               labelProps={{
                 className: "before:content-none after:content-none"
@@ -54,6 +61,7 @@ export function SignIn() {
             </Typography>
             <Input
               type="password"
+              name="password"
               size="lg"
               placeholder="********"
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
@@ -80,7 +88,7 @@ export function SignIn() {
             }
             containerProps={{ className: "-ml-2.5" }}
           />
-          <Button className="mt-6" fullWidth>
+          <Button className="mt-6" fullWidth type="submit">
             Sign In
           </Button>
 

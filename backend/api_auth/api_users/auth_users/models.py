@@ -26,7 +26,6 @@ class CustomModelUser(auth_models.AbstractBaseUser, auth_models.PermissionsMixin
 
     username = models.CharField(
         max_length=USERNAME_NAME_MAX_LENGTH,
-        unique=True,
         default='',
     )
 
