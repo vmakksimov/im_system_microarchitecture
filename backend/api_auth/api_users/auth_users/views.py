@@ -5,17 +5,19 @@ from django.conf import settings
 from django.contrib.auth import login
 from django.contrib.auth import logout
 from django.http import HttpResponse
-
+from rest_framework import permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework import status, viewsets
+from rest_framework_simplejwt.views import TokenObtainPairView
 from auth_users.models import CustomModelUser
 from .services import get_user_data
 from .serializers import AuthSerializer
-from .models import CustomModelUser
 from .serializers import UserRegistrationSerializer
+from .serializers import CustomTokenObtainPairSerializer
+from .models import CustomModelUser
 
 
 # views that handle 'localhost://8000/auth/api/login/google/'
@@ -52,6 +54,10 @@ class GoogleLoginApi(APIView):
         return redirect(frontend_url + f'?token={token}')
 
         # return redirect(os.environ.get("BASE_APP_URL"))
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    permission_classes = [permissions.AllowAny]
+    serializer_class = CustomTokenObtainPairSerializer
     
 
 class LogoutApi(APIView):

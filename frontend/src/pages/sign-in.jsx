@@ -6,16 +6,26 @@ import {
   Typography
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ParticleBackground from "../widgets/particals/ParticleBackground";
+import * as AuthService from '../services/auth-service'
 import "./sign-in.css"
 
 export function SignIn() {
-  const onLogin = (e) => {
-    e.preventDefault()
-    console.log("onLogin")
-    const { email, password } = Object.fromEntries(new FormData(e.target))
-    console.log(email, password)
-  }
+
+  const navigate = useNavigate();
+  const onLogin = async (e) => {
+    e.preventDefault();
+    const { email, password } = Object.fromEntries(new FormData(e.target));
+
+    try {
+      const response = await AuthService.login(email, password);
+      localStorage.setItem('authToken', JSON.stringify(response));
+      navigate('/home');
+    } catch (error) {
+      console.error('Error logging in:', error);
+    }
+  };
   return (
     <section className="sign-in-container">
       <div className="particles-container" >

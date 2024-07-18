@@ -4,6 +4,13 @@ from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        data.update({'user_id': self.user.id, 'email': self.user.email})
+        return data
 
 class AuthSerializer(serializers.Serializer):
     code = serializers.CharField(required=False)
