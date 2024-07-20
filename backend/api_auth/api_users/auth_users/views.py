@@ -20,6 +20,7 @@ from .serializers import CustomTokenObtainPairSerializer
 from .models import CustomModelUser
 
 
+
 # views that handle 'localhost://8000/auth/api/login/google/'
 class RegisterViewAPI(APIView):
     permission_classes = [AllowAny]

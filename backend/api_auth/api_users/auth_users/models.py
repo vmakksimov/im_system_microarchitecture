@@ -52,6 +52,8 @@ class CustomModelUser(auth_models.AbstractBaseUser, auth_models.PermissionsMixin
         default=False,
     )
 
+    is_oauth_user = models.BooleanField(default=False)
+
     USERNAME_FIELD = 'email'
 
     objects = CustomManager()

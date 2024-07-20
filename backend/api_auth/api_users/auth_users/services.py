@@ -69,12 +69,18 @@ def get_user_data(validated_data):
 
     # Creates user in DB if first time login
     user, created = CustomModelUser.objects.get_or_create(
-        username = user_data['email'],
-        email = user_data['email'],
-        first_name = user_data.get('given_name'), 
-        last_name = user_data.get('family_name')
+        email=user_data['email'],
+        defaults={
+            'username': user_data['email'],
+            'first_name': user_data.get('given_name'), 
+            'last_name': user_data.get('family_name'),
+            'is_oauth_user': True
+        }
     )
 
+    if created:
+        user.set_unusable_password()
+        user.save()
 
     token = create_jwt_token(user)
     
@@ -82,6 +88,7 @@ def get_user_data(validated_data):
         'email': user_data['email'],
         'first_name': user_data.get('given_name'),
         'last_name': user_data.get('family_name'),
-        'token': token
+        'token': token,
+        'is_oauth_user': True
     }
     return profile_data

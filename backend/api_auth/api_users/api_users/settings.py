@@ -150,6 +150,11 @@ WSGI_APPLICATION = 'api_users.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+print(f"DB_NAME: {os.environ.get('POSTGRES_DB')}")
+print(f"DB_USER: {os.environ.get('POSTGRES_USER')}")
+print(f"DB_PASSWORD: {os.environ.get('POSTGRES_PASSWORD')}")
+print(f"DB_HOST: {os.environ.get('POSTGRES_HOST')}")
+print(f"DB_PORT: {os.environ.get('POSTGRES_PORT')}")
 
 DATABASES = {
     'default': {
