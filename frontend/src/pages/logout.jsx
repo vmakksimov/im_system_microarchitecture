@@ -16,7 +16,8 @@ const Logout = () => {
     axios.get('http://localhost:8000/auth/api/logout/')
       .then(response => {
         // Clear the token from local storage
-        localStorage.removeItem('authToken');
+        // localStorage.removeItem('authToken');
+        userLogout();
         // Redirect to the home page or sign-in page
         navigate('/home');
       })

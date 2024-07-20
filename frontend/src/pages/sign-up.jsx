@@ -1,28 +1,33 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Input, Checkbox, Button, Typography } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import { useContext, useState } from 'react';
+import { AuthContext } from '../context/AuthContext'
+import { Input, Checkbox, Button, Typography } from "@material-tailwind/react";
 import ParticleBackground from "../widgets/particals/ParticleBackground";
 import * as AuthService from '../services/auth-service'
 import "./sign-up.css";
 
 export const SignUp = () => {
-
+    const [isTermsChecked, setIsTermsChecked] = useState(false);
+    const { userLogin } = useContext(AuthContext);
     const navigate = useNavigate();
-
+    const handleTermsChange = (e) => {
+        setIsTermsChecked(e.target.checked);
+      };
     const onRegister = (e) => {
         e.preventDefault();
-        console.log('e.t', e.target);
-        const usersData = Object.fromEntries(new FormData(e.target));
+        if (!isTermsChecked) {
+            alert('You must accept the terms and conditions in order to sign up!');
+            return;
+          }
         const formData = new FormData(e.target);
-        console.log('usersData', usersData);
         const email = formData.get('email')
         const password = formData.get('password')
         const password2 = formData.get('password2')
         AuthService.register(email, password, password2)
             .then(res => {
-                console.log("promisee", res)
-                // userLogin(res)
+                userLogin(res)
                 navigate('/sign-in')
 
             })
@@ -113,6 +118,8 @@ export const SignUp = () => {
                         />
                     </div>
                     <Checkbox
+                    checked={isTermsChecked}
+                    onChange={handleTermsChange}
                         label={
                             <Typography
                                 variant="small"

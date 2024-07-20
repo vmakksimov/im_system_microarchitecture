@@ -7,20 +7,33 @@ import {
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useContext, useState } from 'react';
+import { AuthContext } from '../context/AuthContext'
 import ParticleBackground from "../widgets/particals/ParticleBackground";
 import * as AuthService from '../services/auth-service'
 import "./sign-in.css"
 
 export function SignIn() {
-
+  const [isTermsChecked, setIsTermsChecked] = useState(false);
+  const { userLogin } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const handleTermsChange = (e) => {
+    setIsTermsChecked(e.target.checked);
+  };
   const onLogin = async (e) => {
     e.preventDefault();
     const { email, password } = Object.fromEntries(new FormData(e.target));
 
+    if (!isTermsChecked) {
+      alert('You must accept the terms and conditions in order to sign in!');
+      return;
+    }
+
     try {
+
       const response = await AuthService.login(email, password);
-      localStorage.setItem('authToken', JSON.stringify(response));
+      userLogin(response)
       navigate('/home');
     } catch (error) {
       console.error('Error logging in:', error);
@@ -81,6 +94,8 @@ export function SignIn() {
             />
           </div>
           <Checkbox
+          checked={isTermsChecked}
+          onChange={handleTermsChange}
             label={
               <Typography
                 variant="small"

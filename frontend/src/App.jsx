@@ -6,17 +6,20 @@ import { AuthContext } from './context/AuthContext';
 import { publicRoutes, privateRoutes } from "@/routes";
 import { PrivateGuard } from "./guards/private-guard";
 import AuthCallback from './services/auth-callback';
+import { useLocalStorage } from './hooks/useLocalStorage';
 
 
 function App() {
    
-
+    const [user, setAuth] = useLocalStorage('authToken', {})
     const dispatch = useAppDispatch();
     const { pathname } = useLocation();
 
-    const isAuthenticated = Boolean(localStorage.getItem("authToken"));
+    const isAuthenticated = Object.keys(user).length > 0;
     const applicableRoutes = isAuthenticated ? privateRoutes : publicRoutes;
-
+    console.log("is authn", isAuthenticated)
+    console.log("lenght of user", Object.keys(user).length, "user", user)
+    
     console.log('aplicable', applicableRoutes)
     function handleClick() {
         dispatch(amountAdded(10));
