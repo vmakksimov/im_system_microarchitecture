@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 from urllib.parse import urlencode
 from typing import Dict, Any
 from auth_users.models import CustomModelUser
+from rest_framework_simplejwt.tokens import RefreshToken
 import requests
 import jwt
 
@@ -82,7 +83,10 @@ def get_user_data(validated_data):
         user.set_unusable_password()
         user.save()
 
-    token = create_jwt_token(user)
+    # token = create_jwt_token(user)
+
+    refresh = RefreshToken.for_user(user)
+    token = str(refresh.access_token)
     
     profile_data = {
         'email': user_data['email'],

@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from "./app/hooks";
 import { AuthContext } from './context/AuthContext';
 import { publicRoutes, privateRoutes } from "@/routes";
 import { PrivateGuard } from "./guards/private-guard";
-import routes from "@/routes";
 import AuthCallback from './services/auth-callback';
 
 

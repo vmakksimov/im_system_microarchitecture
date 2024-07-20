@@ -4,6 +4,7 @@ from django.shortcuts import redirect
 from django.conf import settings
 from django.contrib.auth import login
 from django.contrib.auth import logout
+from django.contrib.auth.hashers import make_password
 from django.http import HttpResponse
 from rest_framework import permissions
 from rest_framework.views import APIView
@@ -12,12 +13,14 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework import status, viewsets
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from auth_users.models import CustomModelUser
 from .services import get_user_data
 from .serializers import AuthSerializer
 from .serializers import UserRegistrationSerializer
 from .serializers import CustomTokenObtainPairSerializer
 from .models import CustomModelUser
+import logging
 
 
 
@@ -39,6 +42,7 @@ class RegisterViewAPI(APIView):
                 #send_email_to_user(user.email)
                 return Response(json, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 class GoogleLoginApi(APIView):
     def get(self, request, *args, **kwargs):
         auth_serializer = AuthSerializer(data=request.GET)
@@ -55,6 +59,22 @@ class GoogleLoginApi(APIView):
         return redirect(frontend_url + f'?token={token}')
 
         # return redirect(os.environ.get("BASE_APP_URL"))
+
+class SetPasswordView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+    def post (self, request):
+        user = request.user
+        password = request.data.get("password")
+        if not password:
+            logging.info("Password is required!")
+            return Response({"Message": "Password is required!"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        user.password = make_password(password)
+        user.save()
+        logging.info("Password updated successfully!")
+        return Response({"detail": "Password updated successfully"}, status=status.HTTP_200_OK)
+
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     permission_classes = [permissions.AllowAny]
