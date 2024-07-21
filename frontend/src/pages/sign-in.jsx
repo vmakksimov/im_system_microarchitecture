@@ -39,6 +39,33 @@ export function SignIn() {
       console.error('Error logging in:', error);
     }
   };
+
+  const handleGoogleLogin = async () => {
+    const api = process.env.BASE_API_URL;
+    console.log("api", api);
+    const GOOGLE_AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
+    const REDIRECT_URI = 'auth/api/login/google/';
+
+    const scope = [
+        'https://www.googleapis.com/auth/userinfo.email',
+        'https://www.googleapis.com/auth/userinfo.profile'
+    ].join(' ');
+
+    const params = {
+        response_type: 'code',
+        client_id: process.env.GOOGLE_OAUTH2_CLIENT_ID,
+        redirect_uri: `${process.env.BASE_API_URL}/${REDIRECT_URI}`,
+        prompt: 'select_account',
+        access_type: 'offline',
+        scope
+    };
+
+    const urlParams = new URLSearchParams(params).toString();
+    // userLogin({
+    //   token: 'token'})
+    console.log("URL Params", urlParams)
+    window.location = `${GOOGLE_AUTH_URL}?${urlParams}`;
+};
   return (
     <section className="sign-in-container">
       <div className="particles-container" >
@@ -140,6 +167,7 @@ export function SignIn() {
               color="white"
               className="flex items-center gap-2 justify-center shadow-md"
               fullWidth
+              onClick={handleGoogleLogin}
             >
               <svg
                 width="17"

@@ -16,6 +16,7 @@ function App() {
     const { pathname } = useLocation();
 
     const isAuthenticated = Object.keys(user).length > 0;
+    console.log("Object keys",Object.entries(user))
     const applicableRoutes = isAuthenticated ? privateRoutes : publicRoutes;
     console.log("is authn", isAuthenticated)
     console.log("lenght of user", Object.keys(user).length, "user", user)

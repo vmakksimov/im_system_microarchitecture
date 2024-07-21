@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  api_auth:
+    build:
+      context: ./backend/api_auth/api_users
+    volumes:
+      - ./backend/api_auth/api_users:/app
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/api_auth/api_users/.env
+    networks:
+      - backend
+    depends_on:
+      - db-django-auth
+
+  frontend:
+    build:
+      context: ./frontend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    env_file:
+      - ./frontend/.env
+    networks:
+      - frontend
+  
+  db-django-auth:
+    image: postgres
+    ports:
+      - "5432:5432"
+    restart: always
+    env_file:
+      - ./backend/api_auth/api_users/.env
+    volumes:
+      - ./backend/api_auth/api_users/postgres-data:/var/lib/postgresql/data
+    networks:
+      - backend
+
+networks:
+  backend:
+  frontend:

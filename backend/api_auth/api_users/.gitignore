@@ -2,3 +2,4 @@
 auth_users/__pycache__
 auth_users/migrations
 api_users/__pycache__
+postgres-data

@@ -32,7 +32,6 @@ class RegisterViewAPI(APIView):
     def post(self, request):
         serializer = UserRegistrationSerializer(data=request.data)
         user = CustomModelUser.objects.all()
-        #TODO implement the registration logic
         if serializer.is_valid():
             user = serializer.save()
             if user:
