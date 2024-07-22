@@ -1,5 +1,5 @@
 import os
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from dotenv import load_dotenv
 from flask_cors import CORS
 from flask_smorest import Api
@@ -14,11 +14,36 @@ from db import db
 
 
 load_dotenv()
+from flask import Response
+
 
 
 def create_app():
     app = Flask(__name__)
-    CORS(app)
+    CORS(app, resources={
+        r"/*": {
+            "origins": ["http://localhost:3000", "http://localhost:5173"],
+            "allow_headers": [
+                "Content-Type",
+                "X-CSRFToken",
+                "cache-control",
+                "Access-Control-Allow-Origin",
+                "*"
+            ],
+            "expose_headers": [
+                "Content-Type",
+                "X-CSRFToken"
+            ],
+            "supports_credentials": True,
+            "methods": ["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"]
+        }
+    })
+    @app.before_request
+    def handle_options_request():
+        if request.method.lower() == 'options':
+            return Response(status=200)
+        
+    app.config['CORS_HEADERS'] = 'Content-Type'
     app.config["PROPAGATE_EXCEPTIONS"] = True
     app.config["API_TITLE"] = "STORES REST API"
     app.config["API_VERSION"] = "v1"
@@ -52,6 +77,8 @@ def create_app():
 
 
 myapp = create_app()
+
+
 
 if __name__ == "__main__":
     myapp.run()

@@ -12,3 +12,5 @@ python manage.py migrate
 
 # Start the the local server
 exec python manage.py runserver 0.0.0.0:8000
+# Start the production server
+# exec gunicorn api_users.wsgi:application -w 2 -b 0.0.0.0:8000

@@ -8,10 +8,11 @@ class PlainCandidateSchema(Schema):
     # load_only only to input data field
     id = fields.Int(dump_only=True)
     email = fields.Email(required=True, unique=True)
-    full_name = fields.Str(required=True)
-    date_for_interview = fields.Date(required=True)
-    stage = EnumField(StageEnum, by_value=True, required=False, default=StageEnum.FIRST)
-    role =  EnumField(RoleEnum, by_value=True, required=True)
+    name = fields.Str(required=True)
+    img = fields.Str(required=False)
+    date = fields.Date(required=True)
+    stage = fields.Str(required=True)
+    job =  fields.Str(required=True)
     status = fields.Str(required=False, default='Pending')
 
 

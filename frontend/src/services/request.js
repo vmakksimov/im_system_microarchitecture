@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const request = async (url, method, data) => {
+export const request = async (baseURL, url, method, data) => {
     try {
         const user = localStorage.getItem('authToken');
         const auth = JSON.parse(user || '{}');
@@ -12,7 +12,7 @@ export const request = async (url, method, data) => {
         }
 
         const options = {
-            baseURL: 'http://localhost:8000',
+            baseURL,
             url,
             method,
             headers,
@@ -32,7 +32,7 @@ export const request = async (url, method, data) => {
     }
 };
 
-export const get = (url, data) => request(url, 'GET', data);
-export const post = (url, data) => request(url, 'POST', data);
-export const put = (url, data) => request(url, 'PUT', data);
-export const del = (url, data) => request(url, 'DELETE', data);
+export const get = (baseURL, url, data) => request(baseURL, url, 'GET', data);
+export const post = (baseURL, url, data) => request(baseURL, url, 'POST', data);
+export const put = (baseURL, url, data) => request(baseURL, url, 'PUT', data);
+export const del = (baseURL, url, data) => request(baseURL, url, 'DELETE', data);

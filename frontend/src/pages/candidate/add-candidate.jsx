@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Input, Button, Typography } from "@material-tailwind/react";
+import * as CandidateService from '../../services/candidates-service'
 import "./add-candidate.css";
 
 
@@ -11,7 +12,7 @@ export function AddCandidate({ close, addCandidate }) {
         email: '',
         name: '',
         date: '',
-        stage: '1',
+        stage: 'FIRST',
         job: 'Developer',
         status: 'Pending',
     });
@@ -36,14 +37,22 @@ export function AddCandidate({ close, addCandidate }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(formData)
+        let newData = Object.fromEntries(new FormData(e.target))
+        console.log("newData", newData)
+        console.log("formData", formData)
         let isEmpty = hasEmptyValues(formData)
         if (isEmpty) {
             alert("Please fill all the fields")
             return
         }
         addCandidate(formData);
-        //TODO  make api call to the backend
+        CandidateService.createCandidate(formData)
+        .then(res => {
+            console.log('response from createCandidate', res)
+        })
+        .catch((error) => {
+            console.log("error", error)
+        })
     };
 
     return (
@@ -109,9 +118,9 @@ export function AddCandidate({ close, addCandidate }) {
                             onChange={handleChange}
                             className=" !border-t-blue-gray-200 focus:!border-t-gray-900 px-3 py-2 rounded-lg"
                         >
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
+                            <option value="FIRST">1</option>
+                            <option value="SECOND">2</option>
+                            <option value="THIRD">3</option>
                         </select>
                         <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
                             Role

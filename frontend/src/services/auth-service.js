@@ -1,12 +1,12 @@
 import * as request from './request'
 
-const baseUrl = '/users'
+const baseUrl = 'http://localhost:8000/'
 
-export const login = (email, password) => request.post(`auth/api/token/`, { email, password })
-export const register = (email, password, password2) => request.post(`auth/register/`, { email, password, password2 })
+export const login = (email, password) => request.post(baseUrl, `auth/api/token/`, { email, password })
+export const register = (email, password, password2) => request.post(baseUrl, `auth/register/`, { email, password, password2 })
 export const logout = async (accessToken) => {
     try {
-        const response = await fetch(`/logout`, {
+        const response = await fetch(baseUrl, `logout`, {
             headers: {
                 'X-Authorization': accessToken
             }
@@ -19,5 +19,5 @@ export const logout = async (accessToken) => {
     }
 }
 
-export const getUser = (accessToken) => request.get(`/me`, {headers: {'X-Authorization': accessToken}})
-export const updateUser = (accessToken) => request.put(`/me`, {headers: {'X-Authorization': accessToken}})
+export const getUser = (accessToken) => request.get(baseUrl, `/me`, {headers: {'X-Authorization': accessToken}})
+export const updateUser = (accessToken) => request.put(baseUrl, `/me`, {headers: {'X-Authorization': accessToken}})
