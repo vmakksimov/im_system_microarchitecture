@@ -1,11 +1,15 @@
 import { useState, useEffect } from "react";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 import { Button, Typography } from "@material-tailwind/react";
 import { useAppDispatch } from "../../app/hooks";
-import { setCandidateData } from "../../features/tables/tables-slice"; // Import the action
+import { setCandidateData, setProjectsTableData } from "../../features/tables/tables-slice";
+import * as CandidateService from '../../services/candidates-service';
 import "./edit-candidate.css";
 
-export function EditCandidateInfo({ close, candidate, candidateData }) {
-    const dispatch = useAppDispatch(); // Redux dispatch hook
+export function EditCandidateInfo({ close, candidate, candidateData, projectsTableData }) {
+    const { editCandidateHandler } = useContext(AuthContext);
+    const dispatch = useAppDispatch();
     const [formData, setFormData] = useState({
         stage: '',
         job: '',
@@ -37,16 +41,34 @@ export function EditCandidateInfo({ close, candidate, candidateData }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         const updatedCandidate = {
-          ...candidate,
-          ...formData,
+            ...candidate,
+            ...formData,
         };
 
-        const updatedCandidateData = candidateData.map(cand =>
-          cand.email === updatedCandidate.email ? updatedCandidate : cand
-        );
+        let candidateDataId = candidateData.find((cand) => cand.email === updatedCandidate.email)?.id;
 
-        dispatch(setCandidateData(updatedCandidateData)); // Dispatch the action
-        close(); // Close the modal after updating
+        CandidateService.editCandidate(candidateDataId, updatedCandidate)
+            .then(res => {
+                // Update both candidateData and projectsTableData
+                dispatch(setCandidateData(
+                    candidateData.map(cand =>
+                        cand.id === candidateDataId ? updatedCandidate : cand
+                    )
+                ));
+
+                dispatch(setProjectsTableData(
+                    projectsTableData.map(cand =>
+                        cand.id === candidateDataId ? updatedCandidate : cand
+                    )
+                ));
+                console.log("before edin handler")
+                editCandidateHandler(candidateDataId, updatedCandidate);
+            })
+            .catch((error) => {
+                console.log("Error in candidate update", error);
+            });
+
+        close(); 
     };
 
     return (
@@ -59,9 +81,7 @@ export function EditCandidateInfo({ close, candidate, candidateData }) {
                 </div>
                 <form className="mt-8 mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2" onSubmit={handleSubmit}>
                     <div className="mb-1 flex flex-col gap-6">
-                        <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-                            Role
-                        </Typography>
+                        <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">Role</Typography>
                         <select
                             size="md"
                             name="job"
@@ -74,9 +94,7 @@ export function EditCandidateInfo({ close, candidate, candidateData }) {
                             <option value="Designer">Designer</option>
                             <option value="Manager">Manager</option>
                         </select>
-                        <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-                            Stage
-                        </Typography>
+                        <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">Stage</Typography>
                         <select
                             name="stage"
                             value={formData.stage || ''}
@@ -88,9 +106,7 @@ export function EditCandidateInfo({ close, candidate, candidateData }) {
                             <option value="2">2</option>
                             <option value="3">3</option>
                         </select>
-                        <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-                            Date for interview
-                        </Typography>
+                        <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">Date for interview</Typography>
                         <input
                             name="date"
                             value={formData.date || ''}
@@ -100,9 +116,7 @@ export function EditCandidateInfo({ close, candidate, candidateData }) {
                             className="input-date !border-t-blue-gray-200 focus:!border-t-gray-900 px-3 py-2 rounded-lg"
                             style={{ border: "1px solid rgb(176 190 197)" }}
                         />
-                        <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-                            Status
-                        </Typography>
+                        <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">Status</Typography>
                         <select
                             name="status"
                             value={formData.status || ''}
@@ -116,9 +130,7 @@ export function EditCandidateInfo({ close, candidate, candidateData }) {
                             <option value="rejected">Rejected</option>
                         </select>
                     </div>
-                    <Button className="mt-6" fullWidth style={{ color: "white" }} type="submit">
-                        Submit
-                    </Button>
+                    <Button className="mt-6" fullWidth style={{ color: "white" }} type="submit">Submit</Button>
                 </form>
             </div>
         </section>

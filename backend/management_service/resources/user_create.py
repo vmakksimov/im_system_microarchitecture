@@ -13,7 +13,7 @@ blp = Blueprint("Create Candidates", __name__, description="Operations for Creat
 
 
 
-@blp.route("/candidates/")
+@blp.route("/candidates")
 class CandidatesCreate(MethodView):
 
     @blp.arguments(PlainCandidateSchema)

@@ -1,7 +1,4 @@
 from marshmallow import Schema, fields
-from marshmallow_enum import EnumField
-from utils.enums import RoleEnum, StageEnum 
-
 
 class PlainCandidateSchema(Schema):
     # dump_only only to output data field
@@ -14,6 +11,13 @@ class PlainCandidateSchema(Schema):
     stage = fields.Str(required=True)
     job =  fields.Str(required=True)
     status = fields.Str(required=False, default='Pending')
+    feedback = fields.Bool(required=False, default=False)
+
+class CandidateUpdateSchema(Schema):
+    stage = fields.String(required=False)
+    role = fields.String(required=False)
+    status = fields.String(required=False)
+    date_for_interview = fields.Date(required=False)
 
 
 # class CandidateSchema(PlainCandidateSchema):

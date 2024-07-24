@@ -9,9 +9,20 @@ import {
   Button
 } from "@material-tailwind/react";
 import { CheckIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { useAppSelector, useAppDispatch } from '../../../app/hooks';
+import { useEffect } from "react";
+import { fetchCandidates } from '../../../features/tables/candidates-thunk';
+import * as CandidateService from '../../../services/candidates-service';
 
-const CompletedTables = ({ isFeedbackSent, projectsTableData }) => {
-
+const CompletedTables = ({ isFeedbackSent }) => {
+    const dispatch = useAppDispatch();
+    const projectsTableData = useAppSelector((state) => state.tables.projectsTableData);
+    console.log("projectsstable", projectsTableData)
+    
+    // useEffect(() => {
+    //     // Fetch only candidates with approved and rejected statuses
+    //     dispatch(fetchCandidates('approved, rejected'));
+    // }, [dispatch]);
   const checkStatus = (value) => {
 
       if (value.includes('approved')) {
@@ -22,7 +33,16 @@ const CompletedTables = ({ isFeedbackSent, projectsTableData }) => {
 
   //TODO remove functionality
   const remove = (e) => {
-      console.log(e.target.parentElement.parentElement)
+      let candidateEmail = e.target.parentElement.parentElement.children[0].children[0].children[1].children[1].textContent
+      let candidateId = projectsTableData.find((cand) => cand.email === candidateEmail)?.id
+      console.log(candidateId)
+      CandidateService.removeCandidate(candidateId)
+      .then(res => {
+          console.log(res)
+      })
+      .catch((error) => {
+          console.log("error", error)
+      })
   }
 
   //TODO send feedback
@@ -41,7 +61,7 @@ const CompletedTables = ({ isFeedbackSent, projectsTableData }) => {
               <table className="w-full min-w-[640px] table-auto">
                   <thead>
                       <tr>
-                          {["candidate", "interviewed by", "status", "feedback sent", ""].map(
+                          {["candidate", "job", "status", "feedback sent", ""].map(
                               (el) => (
                                   <th
                                       key={el}
@@ -59,8 +79,8 @@ const CompletedTables = ({ isFeedbackSent, projectsTableData }) => {
                       </tr>
                   </thead>
                   <tbody>
-                      {projectsTableData.map(
-                          ({ img, name, email, members, status, feedback }, key) => {
+                      {projectsTableData.length > 0 ? projectsTableData.map(
+                          ({ img, name, email, job, status, feedback }, key) => {
                               const className = `py-3 px-5 ${key === projectsTableData.length - 1
                                   ? ""
                                   : "border-b border-blue-gray-50"
@@ -86,7 +106,8 @@ const CompletedTables = ({ isFeedbackSent, projectsTableData }) => {
                                           </div>
                                       </td>
                                       <td className={className}>
-                                          {members.map(({ img, name }, key) => (
+                                        {job}
+                                          {/* {members.map(({ img, name }, key) => (
                                               <Tooltip key={name} content={name}>
                                                   <Avatar
                                                       src={img}
@@ -97,7 +118,7 @@ const CompletedTables = ({ isFeedbackSent, projectsTableData }) => {
                                                           }`}
                                                   />
                                               </Tooltip>
-                                          ))}
+                                          ))} */}
                                       </td>
                                       <td className={className}>
                                           <Chip
@@ -155,7 +176,15 @@ const CompletedTables = ({ isFeedbackSent, projectsTableData }) => {
                                   </tr>
                               );
                           }
-                      )}
+                      )
+                    : <tr>
+                        <td>
+                            <div>
+                                <p>No data</p>
+                            </div>
+                        </td>
+                    </tr>
+                    }
                   </tbody>
               </table>
           </CardBody>

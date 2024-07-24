@@ -12,3 +12,4 @@ class CandidateModel(db.Model):
     img = db.Column(db.String, nullable=True)
     job = db.Column(db.String, nullable=False)
     status = db.Column(db.String, default='Pending', nullable=False)
+    feedback = db.Column(db.Boolean, default=False, nullable=True)

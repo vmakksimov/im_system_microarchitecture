@@ -11,7 +11,7 @@ import {
   setButtonValue,
   setModalOpen,
   setProjectsTableData,
-} from '../../features/tables/tables-slice'; 
+} from '../../features/tables/tables-slice';
 import { authorsTableData, projectsTableData as initialProjectsTableData } from "@/data";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import DashboardNavbar from "@/widgets/layout/dashboard-navbar";
@@ -21,6 +21,7 @@ import Modal from '@/widgets/layout/modal/modal';
 import EditCandidateInfo from '../candidate/edit-candidate';
 import CandidateTable from './inprogress/candidate-table';
 import AddCandidate from '../candidate/add-candidate';
+import * as CandidateService from '../../services/candidates-service';
 
 export function Tables() {
 
@@ -41,9 +42,22 @@ export function Tables() {
   const dispatch = useAppDispatch();
   useEffect(() => {
     // Initialize candidateData and projectsTableData as needed
-    dispatch(setCandidateData(authorsTableData));
-    dispatch(setProjectsTableData(initialProjectsTableData));
-  }, []);
+ 
+
+    authorsTableData.then(res => {
+      dispatch(setCandidateData(res));
+    })
+    .catch((error) => {
+      console.error('Error fetching candidate data:', error);
+    })
+
+    initialProjectsTableData.then(res => {
+      dispatch(setProjectsTableData(res));
+      console.log('projectsTableData', res)
+    })
+
+    // dispatch(setProjectsTableData(initialProjectsTableData));
+  }, [dispatch]);
 
   const openModal = () => dispatch(setModalOpen(true));
   const closeModal = () => dispatch(setModalOpen(false));
@@ -63,7 +77,7 @@ export function Tables() {
         candidate.name === updatedCandidate.name ? updatedCandidate : candidate
       )
     ));
-    console.log("updated data after dispach",candidateData)
+    console.log("updated data after dispach", candidateData)
     closeModal();
   };
 
@@ -72,7 +86,7 @@ export function Tables() {
     // setCandidateData(prevData => [...prevData, newCandidate])
     dispatch(setCandidateData([...candidateData, newCandidate]));
     closeModal();
-    console.log("new candidate after update",candidateData)
+    console.log("new candidate after update", candidateData)
 
     // setCandidateData(...candidateData, newCandidate);
     // closeModal();
@@ -85,7 +99,7 @@ export function Tables() {
     //   return newState;
     // });
     dispatch(setProjectsTableData(
-      projectsTableData.map((item, idx) => 
+      projectsTableData.map((item, idx) =>
         idx === index ? { ...item, feedback: true } : item
       )
     ));
@@ -99,7 +113,7 @@ export function Tables() {
   const setCandidate = (data) => {
     dispatch(setSelectedCandidate(data));
   }
-  
+
 
   return (
     <>
@@ -156,7 +170,7 @@ export function Tables() {
               />
             </table>
           </CardBody>
-        
+
           {isModalOpen && buttonValue === 'Edit' && selectedCandidate && (
             <Modal>
               <div className="modal-overlay">
@@ -165,7 +179,9 @@ export function Tables() {
                     close={closeModal}
                     candidate={selectedCandidate}
                     handleCandidateUpdate={handleCandidateUpdate}
-                    candidateData={candidateData} // Pass candidateData here
+                    candidateId={selectedCandidate.id}
+                    candidateData={candidateData}
+                    projectsTableData={projectsTableData}
                   />
                 </div>
               </div>

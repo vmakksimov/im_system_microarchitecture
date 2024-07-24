@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { Navbar } from "@/widgets/layout";
 import { Tables } from "./pages/dashboard";
@@ -12,19 +13,26 @@ import { useLocalStorage } from './hooks/useLocalStorage';
 function App() {
    
     const [user, setAuth] = useLocalStorage('authToken', {})
+    const [completedCandidates, setCompletedCandidates] = useState([])
     const dispatch = useAppDispatch();
     const { pathname } = useLocation();
 
     const isAuthenticated = Object.keys(user).length > 0;
-    console.log("Object keys",Object.entries(user))
     const applicableRoutes = isAuthenticated ? privateRoutes : publicRoutes;
-    console.log("is authn", isAuthenticated)
-    console.log("lenght of user", Object.keys(user).length, "user", user)
-    
-    console.log('aplicable', applicableRoutes)
-    function handleClick() {
-        dispatch(amountAdded(10));
+
+
+    const addCandidateHandler = (newCandidate) => {
+        setCompletedCandidates(state => [
+            ...state,
+            newCandidate,
+        ])
     }
+
+    const editCandidateHandler = (candidateId, candidateData) => {
+        console.log("heree ven?")
+        setCompletedCandidates(state => state.map(x => x.id == candidateId ? candidateData : x))
+    }
+   
 
     const userLogin = (authData) => {
         setAuth(authData)
@@ -34,8 +42,10 @@ function App() {
         setAuth({})
     }
 
+    console.log('completedcandaidates in teh main', completedCandidates)
+
     return (
-        <AuthContext.Provider value={{userLogin, userLogout, isAuthenticated }}>
+        <AuthContext.Provider value={{userLogin, userLogout, isAuthenticated, addCandidateHandler, editCandidateHandler }}>
             <>
                 {(pathname == "/home") && (
                     <div className="container absolute left-2/4 z-10 mx-auto -translate-x-2/4 p-4">

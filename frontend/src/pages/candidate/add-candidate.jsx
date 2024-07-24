@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import { useContext } from "react";
 import { Input, Button, Typography } from "@material-tailwind/react";
 import * as CandidateService from '../../services/candidates-service'
 import "./add-candidate.css";
@@ -6,13 +8,13 @@ import "./add-candidate.css";
 
 
 export function AddCandidate({ close, addCandidate }) {
-
+    const { addCandidateHandler } = useContext(AuthContext);
     const [formData, setFormData] = useState({
         img: "/img/team-2.jpeg",
         email: '',
         name: '',
         date: '',
-        stage: 'FIRST',
+        stage: '1',
         job: 'Developer',
         status: 'Pending',
     });
@@ -38,8 +40,6 @@ export function AddCandidate({ close, addCandidate }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         let newData = Object.fromEntries(new FormData(e.target))
-        console.log("newData", newData)
-        console.log("formData", formData)
         let isEmpty = hasEmptyValues(formData)
         if (isEmpty) {
             alert("Please fill all the fields")
@@ -49,6 +49,8 @@ export function AddCandidate({ close, addCandidate }) {
         CandidateService.createCandidate(formData)
         .then(res => {
             console.log('response from createCandidate', res)
+
+            addCandidateHandler(res)
         })
         .catch((error) => {
             console.log("error", error)
@@ -118,9 +120,9 @@ export function AddCandidate({ close, addCandidate }) {
                             onChange={handleChange}
                             className=" !border-t-blue-gray-200 focus:!border-t-gray-900 px-3 py-2 rounded-lg"
                         >
-                            <option value="FIRST">1</option>
-                            <option value="SECOND">2</option>
-                            <option value="THIRD">3</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
                         </select>
                         <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
                             Role
