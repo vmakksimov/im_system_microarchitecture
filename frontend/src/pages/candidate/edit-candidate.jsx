@@ -3,11 +3,11 @@ import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { Button, Typography } from "@material-tailwind/react";
 import { useAppDispatch } from "../../app/hooks";
-import { setCandidateData, setProjectsTableData } from "../../features/tables/tables-slice";
+import { setCandidateData, setProjectsTableData, updateCandidate, removeCandidate as removeCandidateAction } from "../../features/tables/tables-slice";
 import * as CandidateService from '../../services/candidates-service';
 import "./edit-candidate.css";
 
-export function EditCandidateInfo({ close, candidate, candidateData, projectsTableData }) {
+export function EditCandidateInfo({ close, candidate, candidateData, projectsTableData, handleCandidateUpdate }) {
     const { editCandidateHandler } = useContext(AuthContext);
     const dispatch = useAppDispatch();
     const [formData, setFormData] = useState({
@@ -44,25 +44,18 @@ export function EditCandidateInfo({ close, candidate, candidateData, projectsTab
             ...candidate,
             ...formData,
         };
-
+     
+        
         let candidateDataId = candidateData.find((cand) => cand.email === updatedCandidate.email)?.id;
-
         CandidateService.editCandidate(candidateDataId, updatedCandidate)
             .then(res => {
-                // Update both candidateData and projectsTableData
-                dispatch(setCandidateData(
-                    candidateData.map(cand =>
-                        cand.id === candidateDataId ? updatedCandidate : cand
-                    )
-                ));
-
-                dispatch(setProjectsTableData(
-                    projectsTableData.map(cand =>
-                        cand.id === candidateDataId ? updatedCandidate : cand
-                    )
-                ));
-                console.log("before edin handler")
-                editCandidateHandler(candidateDataId, updatedCandidate);
+                console.log('res', res)
+                dispatch(updateCandidate(res));
+                if (res.status != 'Pending') {
+                    console.log("before dispatch pending")
+                    console.log('candidateID', res.id)
+                    dispatch(removeCandidateAction(res.id));
+                }
             })
             .catch((error) => {
                 console.log("Error in candidate update", error);
@@ -125,9 +118,9 @@ export function EditCandidateInfo({ close, candidate, candidateData, projectsTab
                             className="!border-t-blue-gray-200 focus:!border-t-gray-900 px-3 py-2 rounded-lg"
                         >
                             <option value="Choose">Choose</option>
-                            <option value="pending">Pending</option>
-                            <option value="approved">Approved</option>
-                            <option value="rejected">Rejected</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Rejected">Rejected</option>
                         </select>
                     </div>
                     <Button className="mt-6" fullWidth style={{ color: "white" }} type="submit">Submit</Button>

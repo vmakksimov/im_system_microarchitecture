@@ -20,7 +20,6 @@ export function AddCandidate({ close, addCandidate }) {
     });
 
     const handleChange = (e) => {
-        console.log("in handle change", e.target.value)
         const { name, value } = e.target;
         setFormData(prevData => ({
             ...prevData,
@@ -45,11 +44,10 @@ export function AddCandidate({ close, addCandidate }) {
             alert("Please fill all the fields")
             return
         }
-        addCandidate(formData);
+        
         CandidateService.createCandidate(formData)
         .then(res => {
-            console.log('response from createCandidate', res)
-
+            addCandidate(res);
             addCandidateHandler(res)
         })
         .catch((error) => {

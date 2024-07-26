@@ -8,17 +8,10 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { fetchCandidates } from '../../../features/tables/candidates-thunk';
 
-const CandidateTable = ({  changeButtonValue, setSelectedCandidate, openModal }) => {
+const CandidateTable = ({  changeButtonValue, setSelectedCandidate, openModal, candidateData }) => {
 
-    const dispatch = useAppDispatch();
-    const candidateData = useAppSelector((state) => state.tables.candidateData);
+    // const candidateData = useAppSelector((state) => state.tables.candidateData);
 
-
-    
-  
-    // useEffect(() => {
-    //   dispatch(fetchCandidates('Pending'));
-    // }, [dispatch]);
     const stageToProgress = (stage) => {
         switch (stage) {
             case 1:

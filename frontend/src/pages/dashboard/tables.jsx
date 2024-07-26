@@ -11,6 +11,8 @@ import {
   setButtonValue,
   setModalOpen,
   setProjectsTableData,
+  updateCandidate
+  
 } from '../../features/tables/tables-slice';
 import { authorsTableData, projectsTableData as initialProjectsTableData } from "@/data";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
@@ -25,14 +27,6 @@ import * as CandidateService from '../../services/candidates-service';
 
 export function Tables() {
 
-  // const [candidateData, setCandidateData] = useState(authorsTableData);
-  // const [selectedCandidate, setSelectedCandidate] = useState(null);
-  // const [buttonValue, setButtonValue] = useState('');
-  // const [isModalOpen, setModalOpen] = useState(false);
-  // const openModal = () => setModalOpen(true);
-  // const closeModal = () => setModalOpen(false);
-
-  // const [projectsTableData, setProjectsTableData] = useState(initialProjectsTableData);
   const candidateData = useAppSelector((state) => state.tables.candidateData);
   const selectedCandidate = useAppSelector((state) => state.tables.selectedCandidate);
   const buttonValue = useAppSelector((state) => state.tables.buttonValue);
@@ -40,80 +34,62 @@ export function Tables() {
   const projectsTableData = useAppSelector((state) => state.tables.projectsTableData);
 
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     // Initialize candidateData and projectsTableData as needed
- 
+    console.log('candidateData', candidateData)
+    console.log('projectsTableData', projectsTableData)
+    console.log('authorsTableData', authorsTableData)
 
     authorsTableData.then(res => {
+      console.log('res from authors table', res)
       dispatch(setCandidateData(res));
-    })
-    .catch((error) => {
+    }).catch((error) => {
       console.error('Error fetching candidate data:', error);
-    })
+    });
 
     initialProjectsTableData.then(res => {
+      console.log('res from projects table', res)
       dispatch(setProjectsTableData(res));
-      console.log('projectsTableData', res)
-    })
+    });
 
-    // dispatch(setProjectsTableData(initialProjectsTableData));
   }, [dispatch]);
+
+  useEffect(() => {
+
+  }, [candidateData]);
 
   const openModal = () => dispatch(setModalOpen(true));
   const closeModal = () => dispatch(setModalOpen(false));
 
-  // console.log('candidate data1', candidateData)
-
   const handleCandidateUpdate = (updatedCandidate) => {
-    console.log('updatedcandidate', updatedCandidate)
-    // setCandidateData(prevData =>
-    //   prevData.map(candidate =>
-    //     candidate.name === updatedCandidate.name ? updatedCandidate : candidate
-    //   )
-    // );
-    // closeModal();
-    dispatch(setCandidateData(
-      candidateData.map(candidate =>
-        candidate.name === updatedCandidate.name ? updatedCandidate : candidate
-      )
-    ));
-    console.log("updated data after dispach", candidateData)
+    dispatch(updateCandidate(updatedCandidate));
+    // dispatch(setProjectsTableData(candidateData.map(candidate =>
+    //   candidate.name === updatedCandidate.name ? updatedCandidate : candidate
+    // )));
     closeModal();
   };
 
   const addCandidate = (newCandidate) => {
-    console.log('newCandiate,', newCandidate)
-    // setCandidateData(prevData => [...prevData, newCandidate])
     dispatch(setCandidateData([...candidateData, newCandidate]));
     closeModal();
-    console.log("new candidate after update", candidateData)
-
-    // setCandidateData(...candidateData, newCandidate);
-    // closeModal();
-  }
+  };
 
   const isFeedbackSent = (index) => {
-    // setProjectsTableData(prevState => {
-    //   const newState = [...prevState];
-    //   newState[index].feedback = true;
-    //   return newState;
-    // });
     dispatch(setProjectsTableData(
       projectsTableData.map((item, idx) =>
         idx === index ? { ...item, feedback: true } : item
       )
     ));
-  }
+  };
 
   const changeButtonValue = (e) => {
-    // setButtonValue(e.target.textContent)
     dispatch(setButtonValue(e.target.textContent));
-  }
+  };
 
   const setCandidate = (data) => {
     dispatch(setSelectedCandidate(data));
-  }
-
+  };
 
   return (
     <>
@@ -191,6 +167,7 @@ export function Tables() {
         <CompletedTables
           isFeedbackSent={isFeedbackSent}
           projectsTableData={projectsTableData}
+          candidateData={candidateData}
         />
       </div>
     </>

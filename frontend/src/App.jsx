@@ -29,7 +29,6 @@ function App() {
     }
 
     const editCandidateHandler = (candidateId, candidateData) => {
-        console.log("heree ven?")
         setCompletedCandidates(state => state.map(x => x.id == candidateId ? candidateData : x))
     }
    
@@ -42,7 +41,6 @@ function App() {
         setAuth({})
     }
 
-    console.log('completedcandaidates in teh main', completedCandidates)
 
     return (
         <AuthContext.Provider value={{userLogin, userLogout, isAuthenticated, addCandidateHandler, editCandidateHandler }}>

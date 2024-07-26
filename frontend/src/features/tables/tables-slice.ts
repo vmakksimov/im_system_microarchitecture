@@ -31,6 +31,7 @@ const initialState: TablesState = {
 
 export const fetchCandidates = createAsyncThunk('candidates/fetchCandidates', async () => {
   const response = await CandidateService.getCandidates();
+  console.log('candidates from tables-slice.ts', response);
   return response;
 });
 
@@ -53,6 +54,23 @@ const tablesSlice = createSlice({
     setProjectsTableData(state, action: PayloadAction<any[]>) {
       state.projectsTableData = action.payload;
     },
+    updateCandidate(state, action: PayloadAction<Candidate>) {
+      const updatedCandidate = action.payload;
+
+      state.candidateData = state.candidateData.map(candidate =>
+        candidate.id === updatedCandidate.id ? updatedCandidate : candidate
+      );
+
+      state.projectsTableData = state.projectsTableData.map(candidate =>
+        candidate.id === updatedCandidate.id ? updatedCandidate : candidate
+      );
+    },
+    removeCandidate(state, action: PayloadAction<string>) {
+      const candidateId = action.payload;
+      state.candidateData = state.candidateData.filter(candidate => candidate.id !== candidateId);
+      state.projectsTableData = state.projectsTableData.filter(candidate => candidate.id !== candidateId);
+    },
+  
   },
   extraReducers: (builder) => {
     builder
@@ -77,6 +95,8 @@ export const {
   setButtonValue,
   setModalOpen,
   setProjectsTableData,
+  removeCandidate,
+  updateCandidate
 } = tablesSlice.actions;
 
 export default tablesSlice.reducer;
