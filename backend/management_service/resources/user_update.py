@@ -1,8 +1,8 @@
-from flask_jwt_extended import jwt_required, get_jwt
+
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from sqlalchemy.exc import SQLAlchemyError
-
+from token_decorator import token_required 
 from schemas import PlainCandidateSchema, CandidateUpdateSchema
 from models import CandidateModel
 from db import db
@@ -12,6 +12,7 @@ blp = Blueprint("Update Candidate", __name__, description="Operations for Update
 
 @blp.route("/candidate/<int:candidate_id>")
 class CandidateUpdate(MethodView):
+    decorators = [token_required]
     @blp.arguments(PlainCandidateSchema)
     @blp.response(200, PlainCandidateSchema)
     def put(self, request_data, candidate_id):

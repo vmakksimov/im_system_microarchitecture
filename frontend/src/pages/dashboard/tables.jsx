@@ -36,37 +36,32 @@ export function Tables() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    // Initialize candidateData and projectsTableData as needed
-    console.log('candidateData', candidateData)
-    console.log('projectsTableData', projectsTableData)
-    console.log('authorsTableData', authorsTableData)
-
     authorsTableData.then(res => {
-      console.log('res from authors table', res)
+      console.log('first response in authors table', res);
       dispatch(setCandidateData(res));
     }).catch((error) => {
       console.error('Error fetching candidate data:', error);
     });
 
     initialProjectsTableData.then(res => {
-      console.log('res from projects table', res)
+      console.log('first response in projects table data', res);
       dispatch(setProjectsTableData(res));
     });
 
   }, [dispatch]);
 
   useEffect(() => {
-
-  }, [candidateData]);
+    // When candidateData or projectsTableData change, log or use the updated data
+    console.log('Updated candidateData:', candidateData);
+    console.log('Updated projectsTableData:', projectsTableData);
+  }, [candidateData, projectsTableData]);
 
   const openModal = () => dispatch(setModalOpen(true));
   const closeModal = () => dispatch(setModalOpen(false));
 
   const handleCandidateUpdate = (updatedCandidate) => {
     dispatch(updateCandidate(updatedCandidate));
-    // dispatch(setProjectsTableData(candidateData.map(candidate =>
-    //   candidate.name === updatedCandidate.name ? updatedCandidate : candidate
-    // )));
+    console.log('Dispatching updateCandidate with:', updatedCandidate)
     closeModal();
   };
 

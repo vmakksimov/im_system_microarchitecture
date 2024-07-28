@@ -12,8 +12,8 @@ function AuthCallback() {
     const searchParams = new URLSearchParams(location.search);
     const token = searchParams.get('token');
     if (token) {
-      localStorage.setItem('authToken', token);
-      userLogin({"authToken": token});
+      localStorage.setItem('access', token);
+      userLogin({"access": token});
       
     }
   }, [location.search]);

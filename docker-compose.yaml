@@ -15,6 +15,20 @@ services:
     depends_on:
       - db-django-auth
 
+  management_service:
+    build:
+      context: ./backend/management_service
+    volumes:
+      - ./backend/management_service:/app
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./backend/management_service/.env
+    networks:
+      - backend
+    depends_on:
+      - db-flask-ms
+
   frontend:
     build:
       context: ./frontend
@@ -27,6 +41,19 @@ services:
       - ./frontend/.env
     networks:
       - frontend
+  
+  db-flask-ms:
+    image: postgres
+    ports:
+      - "5430:5430"
+    restart: always
+    env_file:
+      - ./backend/management_service/.env
+    volumes:
+      - ./backend/management_service/postgres-data:/var/lib/postgresql/data
+    command: ["postgres", "-c", "port=5430"]
+    networks:
+      - backend
   
   db-django-auth:
     image: postgres

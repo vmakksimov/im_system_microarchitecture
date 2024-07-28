@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { Button, Typography } from "@material-tailwind/react";
 import { useAppDispatch } from "../../app/hooks";
-import { setCandidateData, setProjectsTableData, updateCandidate, removeCandidate as removeCandidateAction } from "../../features/tables/tables-slice";
+import { setCandidateData, setProjectsTableData,updateCandidateData, updateCandidate, removeCandidate as removeCandidateAction } from "../../features/tables/tables-slice";
 import * as CandidateService from '../../services/candidates-service';
 import "./edit-candidate.css";
 
@@ -49,17 +49,22 @@ export function EditCandidateInfo({ close, candidate, candidateData, projectsTab
         let candidateDataId = candidateData.find((cand) => cand.email === updatedCandidate.email)?.id;
         CandidateService.editCandidate(candidateDataId, updatedCandidate)
             .then(res => {
-                console.log('res', res)
                 dispatch(updateCandidate(res));
-                if (res.status != 'Pending') {
-                    console.log("before dispatch pending")
-                    console.log('candidateID', res.id)
-                    dispatch(removeCandidateAction(res.id));
+                // if (res.status != 'Pending') {
+                //     dispatch(removeCandidateAction(res.id));
+                // }
+                console.log('updateCandidate.status', res.status)
+                if (res.status !== 'Pending'){
+                    dispatch(updateCandidateData(candidateDataId))
                 }
             })
             .catch((error) => {
                 console.log("Error in candidate update", error);
             });
+            
+            
+            
+            // here to call the new reducer to remove the leftover candidate from candidateData
 
         close(); 
     };

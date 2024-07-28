@@ -1,21 +1,19 @@
-from flask_jwt_extended import jwt_required, get_jwt
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from sqlalchemy.exc import SQLAlchemyError
-from flask_cors import cross_origin, CORS
 from schemas import PlainCandidateSchema
 from models import CandidateModel
+from token_decorator import token_required 
 from db import db
 from log import app_logger
 
 blp = Blueprint("Create Candidates", __name__, description="Operations for Create candidates")
 
 
-
-
 @blp.route("/candidates")
 class CandidatesCreate(MethodView):
 
+    decorators = [token_required]
     @blp.arguments(PlainCandidateSchema)
     @blp.response(201, PlainCandidateSchema)
     def post(self, request_data):

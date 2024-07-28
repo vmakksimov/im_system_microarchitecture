@@ -42,6 +42,50 @@ const tablesSlice = createSlice({
     setCandidateData(state, action: PayloadAction<Candidate[]>) {
       state.candidateData = action.payload;
     },
+    updateCandidate(state, action) {
+      const updatedCandidate = action.payload;
+      // Update candidateData and projectsTableData
+      console.log('Previous candidateData:', state.candidateData);
+      console.log('Previous projectsTableData:', state.projectsTableData);
+      console.log('Dispatching updateCandidate with:', updatedCandidate);
+
+      const createCandidateProxy = (candidate) => {
+        return new Proxy(candidate, {
+          get(target, prop, receiver) {
+            return Reflect.get(target, prop, receiver);
+          },
+          set(target, prop, value, receiver) {
+            return Reflect.set(target, prop, value, receiver);
+          },
+        });
+      };
+
+
+      state.projectsTableData = state.projectsTableData.map(candidate =>
+        candidate.id === updatedCandidate.id ? updatedCandidate : candidate
+      );
+
+      state.candidateData = state.candidateData.map(candidate =>
+        candidate.id === updatedCandidate.id ? updatedCandidate : candidate
+      );
+      
+      // Check if the updated candidate has status "Approved" or "Rejected"
+      if (["Approved", "Rejected"].includes(updatedCandidate.status)) {
+        // Check if the candidate is not already in projectsTableData
+        const isInProjectsTable = state.projectsTableData.some(candidate => candidate.id === updatedCandidate.id);
+        if (!isInProjectsTable) {
+          state.projectsTableData.push(updatedCandidate);
+        }
+      }
+
+      console.log('Updated candidateData:', state.candidateData);
+      console.log('Updated projectsTableData:', state.projectsTableData);
+    },
+    updateCandidateData(state, action){
+      const candidateId = action.payload;
+
+      state.candidateData = state.candidateData.filter(candidate => candidate.id !== candidateId);
+    },
     setSelectedCandidate(state, action: PayloadAction<Candidate | null>) {
       state.selectedCandidate = action.payload;
     },
@@ -51,26 +95,17 @@ const tablesSlice = createSlice({
     setModalOpen(state, action: PayloadAction<boolean>) {
       state.isModalOpen = action.payload;
     },
-    setProjectsTableData(state, action: PayloadAction<any[]>) {
+    setProjectsTableData(state, action) {
       state.projectsTableData = action.payload;
-    },
-    updateCandidate(state, action: PayloadAction<Candidate>) {
-      const updatedCandidate = action.payload;
-
-      state.candidateData = state.candidateData.map(candidate =>
-        candidate.id === updatedCandidate.id ? updatedCandidate : candidate
-      );
-
-      state.projectsTableData = state.projectsTableData.map(candidate =>
-        candidate.id === updatedCandidate.id ? updatedCandidate : candidate
-      );
+      console.log('setprojectsTableData in store:', state.projectsTableData);
     },
     removeCandidate(state, action: PayloadAction<string>) {
       const candidateId = action.payload;
+
       state.candidateData = state.candidateData.filter(candidate => candidate.id !== candidateId);
       state.projectsTableData = state.projectsTableData.filter(candidate => candidate.id !== candidateId);
     },
-  
+
   },
   extraReducers: (builder) => {
     builder
@@ -96,7 +131,8 @@ export const {
   setModalOpen,
   setProjectsTableData,
   removeCandidate,
-  updateCandidate
+  updateCandidate,
+  updateCandidateData
 } = tablesSlice.actions;
 
 export default tablesSlice.reducer;

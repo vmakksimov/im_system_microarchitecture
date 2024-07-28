@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+
+  web-flask-management_service:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    depends_on:
+      - db-flask-ms
+  
+
+  db-flask-ms:
+    image: postgres
+    ports:
+      - "5432:5432"
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data

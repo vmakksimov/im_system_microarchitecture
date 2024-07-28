@@ -2,13 +2,15 @@ import axios from 'axios';
 
 export const request = async (baseURL, url, method, data) => {
     try {
-        const user = localStorage.getItem('authToken');
+        const user = localStorage.getItem('access');
         const auth = JSON.parse(user || '{}');
 
         const headers = {};
 
-        if (auth.accessToken) {
-            headers['X-Authorization'] = auth.accessToken;
+        console.log('auth in request.js', auth)
+
+        if (auth.access) {
+            headers['Authorization'] = `Bearer ${auth.access}`;
         }
 
         const options = {

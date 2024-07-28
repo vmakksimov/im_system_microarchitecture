@@ -12,7 +12,7 @@ import { useLocalStorage } from './hooks/useLocalStorage';
 
 function App() {
    
-    const [user, setAuth] = useLocalStorage('authToken', {})
+    const [user, setAuth] = useLocalStorage('access', {})
     const [completedCandidates, setCompletedCandidates] = useState([])
     const dispatch = useAppDispatch();
     const { pathname } = useLocation();

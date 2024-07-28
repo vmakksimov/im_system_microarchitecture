@@ -18,9 +18,10 @@ import * as CandidateService from '../../../services/candidates-service';
 const CompletedTables = ({ isFeedbackSent }) => {
     const dispatch = useAppDispatch();
     const candidateData = useAppSelector(state => state.tables.candidateData);
-    const projectsTableData = useAppSelector(state => state.tables.projectsTableData);
-    console.log("candidate in completed tables ", projectsTableData)
-    console.log('Rendering CompletedTables with candidateData:', candidateData); // Add this log
+    const projectsTableData = useAppSelector((state) => state.tables.projectsTableData);
+
+    console.log('candidate data in Completed Tables:', candidateData)
+    console.log("projects table data in Completed tables:", projectsTableData)
     const checkStatus = (value) => {
 
         if (value.includes('Approved')) {
@@ -38,6 +39,7 @@ const CompletedTables = ({ isFeedbackSent }) => {
                 // TODO implement the succesfull message
                 console.log(res)
                 dispatch(removeCandidateAction(candidateId));
+                console.log('Dispatching updateCandidate with:', updatedCandidate)
 
             })
             .catch((error) => {
@@ -51,7 +53,9 @@ const CompletedTables = ({ isFeedbackSent }) => {
     }
 
 
-
+    useEffect(() => {
+        console.log('CompletedTables projectsTableData:', projectsTableData);
+      }, [projectsTableData]);
     return (
         <Card>
             <CardHeader variant="gradient" color="gray" className="mb-8 p-6">

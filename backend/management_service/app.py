@@ -1,5 +1,6 @@
 import os
-from flask import Flask, jsonify, request
+import jwt
+from flask import Flask, jsonify, request, Response, g
 from dotenv import load_dotenv
 from flask_cors import CORS
 from flask_smorest import Api
@@ -8,18 +9,14 @@ from resources.user_create import blp as CandidateCreateBlueprint
 from resources.user_get import blp as CandidateGetBlueprint
 from resources.user_update import blp as CandidateUpdateBlueprint
 from resources.user_delete import blp as CandidateDeleteBlueprint
-
 from db import db
-# from flask_jwt_extended import JWTManager
-
-
+from functools import wraps
 load_dotenv()
-from flask import Response
-
-
+# from flask_jwt_extended import JWTManager
 
 def create_app():
     app = Flask(__name__)
+    app.config['SECRET_KEY'] = os.getenv('DJANGO_SECRET_KEY')
     CORS(app, resources={
         r"/*": {
             "origins": ["http://localhost:3000", "http://localhost:5173"],
@@ -77,7 +74,6 @@ def create_app():
 
 
 myapp = create_app()
-
 
 
 if __name__ == "__main__":
