@@ -6,27 +6,35 @@ interface Candidate {
   id: number;
   name: string;
   role: string;
+  email: string; // Ensure email is included
+  status: string; 
   // Add other fields as needed
 }
 
 interface TablesState {
   candidateData: Candidate[];
+  unfilteredCandidateData: Candidate[]; // Add this
   selectedCandidate: Candidate | null;
   buttonValue: string;
   isModalOpen: boolean;
+  unfilteredProjectsTableData: any[]; // Add this
   projectsTableData: any[];
   loading: boolean;
   error: string | null;
+  searchTerm: string;
 }
 
 const initialState: TablesState = {
+  unfilteredCandidateData: [],
   candidateData: [],
   selectedCandidate: null,
   buttonValue: '',
   isModalOpen: false,
+  unfilteredProjectsTableData: [],
   projectsTableData: [],
   loading: false,
   error: null,
+  searchTerm: '',
 };
 
 export const fetchCandidates = createAsyncThunk('candidates/fetchCandidates', async () => {
@@ -41,6 +49,7 @@ const tablesSlice = createSlice({
   reducers: {
     setCandidateData(state, action: PayloadAction<Candidate[]>) {
       state.candidateData = action.payload;
+      state.unfilteredCandidateData = action.payload;
     },
     updateCandidate(state, action) {
       const updatedCandidate = action.payload;
@@ -97,6 +106,7 @@ const tablesSlice = createSlice({
     },
     setProjectsTableData(state, action) {
       state.projectsTableData = action.payload;
+      state.unfilteredProjectsTableData = action.payload;
       console.log('setprojectsTableData in store:', state.projectsTableData);
     },
     removeCandidate(state, action: PayloadAction<string>) {
@@ -104,6 +114,27 @@ const tablesSlice = createSlice({
 
       state.candidateData = state.candidateData.filter(candidate => candidate.id !== candidateId);
       state.projectsTableData = state.projectsTableData.filter(candidate => candidate.id !== candidateId);
+    },
+    setSearchTerm(state, action: PayloadAction<string>) {
+      const searchTerm = action.payload;
+      state.searchTerm = searchTerm;
+
+      if (searchTerm.trim() === '') {
+        // Reset to unfiltered data if search term is cleared
+        state.candidateData = state.unfilteredCandidateData;
+        state.projectsTableData = state.unfilteredProjectsTableData;
+      } else {
+        const lowerCaseTerm = searchTerm.toLowerCase();
+
+        const filterCandidates = (candidates: Candidate[]) =>
+          candidates.filter(candidate =>
+            candidate.name.toLowerCase().includes(lowerCaseTerm) ||
+            candidate.email.toLowerCase().includes(lowerCaseTerm)
+          );
+
+        state.candidateData = filterCandidates(state.unfilteredCandidateData);
+        state.projectsTableData = filterCandidates(state.unfilteredProjectsTableData);
+      }
     },
 
   },
@@ -115,6 +146,7 @@ const tablesSlice = createSlice({
       })
       .addCase(fetchCandidates.fulfilled, (state, action: PayloadAction<Candidate[]>) => {
         state.candidateData = action.payload;
+        state.unfilteredCandidateData = action.payload;
         state.loading = false;
       })
       .addCase(fetchCandidates.rejected, (state, action) => {
@@ -132,7 +164,16 @@ export const {
   setProjectsTableData,
   removeCandidate,
   updateCandidate,
-  updateCandidateData
+  updateCandidateData,
+  setSearchTerm
 } = tablesSlice.actions;
 
 export default tablesSlice.reducer;
+
+// Selector to get filtered candidates
+export const selectFilteredCandidates = (state: { tables: TablesState }) => {
+  return {
+    candidateData: state.tables.candidateData,
+    projectsTableData: state.tables.projectsTableData,
+  };
+};

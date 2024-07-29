@@ -16,6 +16,7 @@ import {
 } from '../../features/tables/tables-slice';
 import { authorsTableData, projectsTableData as initialProjectsTableData } from "@/data";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useSelector } from 'react-redux';
 import DashboardNavbar from "@/widgets/layout/dashboard-navbar";
 import routes from "@/routes";
 import CompletedTables from './completed/completedtables';
@@ -24,14 +25,15 @@ import EditCandidateInfo from '../candidate/edit-candidate';
 import CandidateTable from './inprogress/candidate-table';
 import AddCandidate from '../candidate/add-candidate';
 import * as CandidateService from '../../services/candidates-service';
+import { selectFilteredCandidates } from '../../features/tables/tables-slice';
 
 export function Tables() {
-
-  const candidateData = useAppSelector((state) => state.tables.candidateData);
+  const { candidateData, projectsTableData } = useSelector(selectFilteredCandidates);
+  // const candidateData = useAppSelector((state) => state.tables.candidateData);
   const selectedCandidate = useAppSelector((state) => state.tables.selectedCandidate);
   const buttonValue = useAppSelector((state) => state.tables.buttonValue);
   const isModalOpen = useAppSelector((state) => state.tables.isModalOpen);
-  const projectsTableData = useAppSelector((state) => state.tables.projectsTableData);
+  // const projectsTableData = useAppSelector((state) => state.tables.projectsTableData);
 
   const dispatch = useAppDispatch();
 

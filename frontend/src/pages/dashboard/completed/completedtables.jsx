@@ -11,14 +11,16 @@ import {
 import { CheckIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useAppSelector, useAppDispatch } from '../../../app/hooks';
 import { useEffect, useState } from "react";
+import { useSelector } from 'react-redux';
 import { fetchCandidates } from '../../../features/tables/candidates-thunk';
-import { setCandidateData, setProjectsTableData, removeCandidate as removeCandidateAction } from "../../../features/tables/tables-slice";
+import { setCandidateData, setProjectsTableData, removeCandidate as removeCandidateAction, selectFilteredCandidates } from "../../../features/tables/tables-slice";
 import * as CandidateService from '../../../services/candidates-service';
 
 const CompletedTables = ({ isFeedbackSent }) => {
     const dispatch = useAppDispatch();
-    const candidateData = useAppSelector(state => state.tables.candidateData);
-    const projectsTableData = useAppSelector((state) => state.tables.projectsTableData);
+    // const candidateData = useAppSelector(state => state.tables.candidateData);
+    // const projectsTableData = useAppSelector((state) => state.tables.projectsTableData);
+    const { candidateData, projectsTableData } = useSelector(selectFilteredCandidates);
 
     console.log('candidate data in Completed Tables:', candidateData)
     console.log("projects table data in Completed tables:", projectsTableData)

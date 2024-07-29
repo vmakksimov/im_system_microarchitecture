@@ -25,13 +25,22 @@ import {
   setOpenConfigurator,
   setOpenSidenav,
 } from "@/context";
+import { useDispatch, useSelector } from 'react-redux';
+import { setSearchTerm, selectFilteredCandidates } from '../../features/tables/tables-slice';
 
 
 export function DashboardNavbar({ openModal, changeButtonValue }) {
-  const [controller, dispatch] = useMaterialTailwindController();
+  const [controller, tailwindDispatch] = useMaterialTailwindController();
   const { fixedNavbar, openSidenav } = controller;
   const { pathname } = useLocation();
   const [layout, page] = pathname.split("/").filter((el) => el !== "");
+  const dispatch = useDispatch();
+  const { candidateData, projectsTableData } = useSelector(selectFilteredCandidates);
+  const searchField = (event) => {
+    console.log("evenet from serach", event.target.value)
+    dispatch(setSearchTerm(event.target.value));
+    console.log('candidateData', candidateData)
+  }
 
 
   return (
@@ -74,13 +83,13 @@ export function DashboardNavbar({ openModal, changeButtonValue }) {
           </div>
           <div className="flex items-center">
             <div className="mr-auto md:mr-4 md:w-56">
-              <Input label="Search" />
+              <Input label="Search" onChange={searchField} />
             </div>
             <IconButton
               variant="text"
               color="blue-gray"
               className="grid xl:hidden"
-              onClick={() => setOpenSidenav(dispatch, !openSidenav)}
+              onClick={() => setOpenSidenav(tailwindDispatch, !openSidenav)}
             >
               <Bars3Icon strokeWidth={3} className="h-6 w-6 text-blue-gray-500" />
             </IconButton>
@@ -223,7 +232,7 @@ export function DashboardNavbar({ openModal, changeButtonValue }) {
             <IconButton
               variant="text"
               color="blue-gray"
-              onClick={() => setOpenConfigurator(dispatch, true)}
+              onClick={() => setOpenConfigurator(tailwindDispatch, true)}
             >
               <Cog6ToothIcon className="h-5 w-5 text-blue-gray-500" />
             </IconButton>
