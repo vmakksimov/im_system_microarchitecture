@@ -11,7 +11,8 @@ import {
   setButtonValue,
   setModalOpen,
   setProjectsTableData,
-  updateCandidate
+  updateCandidate,
+
   
 } from '../../features/tables/tables-slice';
 import { authorsTableData, projectsTableData as initialProjectsTableData } from "@/data";

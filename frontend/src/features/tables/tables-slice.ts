@@ -58,23 +58,19 @@ const tablesSlice = createSlice({
       console.log('Previous projectsTableData:', state.projectsTableData);
       console.log('Dispatching updateCandidate with:', updatedCandidate);
 
-      const createCandidateProxy = (candidate) => {
-        return new Proxy(candidate, {
-          get(target, prop, receiver) {
-            return Reflect.get(target, prop, receiver);
-          },
-          set(target, prop, value, receiver) {
-            return Reflect.set(target, prop, value, receiver);
-          },
-        });
-      };
-
-
       state.projectsTableData = state.projectsTableData.map(candidate =>
         candidate.id === updatedCandidate.id ? updatedCandidate : candidate
       );
 
       state.candidateData = state.candidateData.map(candidate =>
+        candidate.id === updatedCandidate.id ? updatedCandidate : candidate
+      );
+
+      state.unfilteredCandidateData = state.unfilteredCandidateData.map(candidate =>
+        candidate.id === updatedCandidate.id ? updatedCandidate : candidate
+      );
+
+      state.unfilteredProjectsTableData = state.unfilteredProjectsTableData.map(candidate =>
         candidate.id === updatedCandidate.id ? updatedCandidate : candidate
       );
       
@@ -84,6 +80,7 @@ const tablesSlice = createSlice({
         const isInProjectsTable = state.projectsTableData.some(candidate => candidate.id === updatedCandidate.id);
         if (!isInProjectsTable) {
           state.projectsTableData.push(updatedCandidate);
+          state.unfilteredProjectsTableData.push(updatedCandidate);
         }
       }
 
@@ -114,6 +111,8 @@ const tablesSlice = createSlice({
 
       state.candidateData = state.candidateData.filter(candidate => candidate.id !== candidateId);
       state.projectsTableData = state.projectsTableData.filter(candidate => candidate.id !== candidateId);
+      state.unfilteredCandidateData = state.unfilteredCandidateData.filter(candidate => candidate.id !== candidateId);
+      state.unfilteredProjectsTableData = state.unfilteredProjectsTableData.filter(candidate => candidate.id !== candidateId);
     },
     setSearchTerm(state, action: PayloadAction<string>) {
       const searchTerm = action.payload;

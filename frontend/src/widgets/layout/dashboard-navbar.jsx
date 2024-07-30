@@ -39,7 +39,7 @@ export function DashboardNavbar({ openModal, changeButtonValue }) {
   const searchField = (event) => {
     console.log("evenet from serach", event.target.value)
     dispatch(setSearchTerm(event.target.value));
-    console.log('candidateData', candidateData)
+    console.log('candidateData from searchField in dashboard', candidateData)
   }
 
 
