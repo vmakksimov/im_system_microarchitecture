@@ -1,20 +1,17 @@
 import { useState, useEffect } from "react";
-import { useContext } from "react";
-import { AuthContext } from "../../context/AuthContext";
 import { Button, Typography } from "@material-tailwind/react";
 import { useAppDispatch } from "../../app/hooks";
-import { setCandidateData, setProjectsTableData,updateCandidateData, updateCandidate, removeCandidate as removeCandidateAction } from "../../features/tables/tables-slice";
+import { updateCandidateData, updateCandidate, removeCandidate as removeCandidateAction } from "../../features/tables/tables-slice";
 import * as CandidateService from '../../services/candidates-service';
 import "./edit-candidate.css";
 
-export function EditCandidateInfo({ close, candidate, candidateData, projectsTableData, handleCandidateUpdate }) {
-    const { editCandidateHandler } = useContext(AuthContext);
+export function EditCandidateInfo({ close, candidate, candidateData}) {
     const dispatch = useAppDispatch();
     const [formData, setFormData] = useState({
         stage: '',
         job: '',
         status: 'Choose',
-        date: ''
+        date: '',
     });
 
     useEffect(() => {
@@ -25,7 +22,8 @@ export function EditCandidateInfo({ close, candidate, candidateData, projectsTab
                 stage: candidate.stage || '',
                 job: candidate.job || '',
                 status: candidate.status || '',
-                date: candidate.date || ''
+                date: candidate.date || '',
+                feedback: candidate.feedback || false
             });
         }
     }, [candidate]);
@@ -47,13 +45,13 @@ export function EditCandidateInfo({ close, candidate, candidateData, projectsTab
      
         
         let candidateDataId = candidateData.find((cand) => cand.email === updatedCandidate.email)?.id;
+        let newCandidateData = candidateData.find((cand) => cand.email === updatedCandidate.email)
+        // const { id, ...candidateWithoutId } = newData;
+        console.log('new candidate in edt', newCandidateData)
+        console.log('updatedCandidate', updatedCandidate)
         CandidateService.editCandidate(candidateDataId, updatedCandidate)
             .then(res => {
                 dispatch(updateCandidate(res));
-                // if (res.status != 'Pending') {
-                //     dispatch(removeCandidateAction(res.id));
-                // }
-                console.log('updateCandidate.status', res.status)
                 if (res.status !== 'Pending'){
                     dispatch(updateCandidateData(candidateDataId))
                 }

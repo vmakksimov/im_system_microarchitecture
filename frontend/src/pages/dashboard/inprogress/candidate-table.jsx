@@ -4,9 +4,7 @@ import {
     Chip,
     Progress,
 } from "@material-tailwind/react";
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { fetchCandidates } from '../../../features/tables/candidates-thunk';
+
 
 const CandidateTable = ({  changeButtonValue, setSelectedCandidate, openModal, candidateData }) => {
 

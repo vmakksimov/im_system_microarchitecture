@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   Card,
   CardHeader,
@@ -27,6 +27,7 @@ import CandidateTable from './inprogress/candidate-table';
 import AddCandidate from '../candidate/add-candidate';
 import * as CandidateService from '../../services/candidates-service';
 import { selectFilteredCandidates } from '../../features/tables/tables-slice';
+import { AuthContext } from '../../context/AuthContext';
 
 export function Tables() {
   const { candidateData, projectsTableData } = useSelector(selectFilteredCandidates);
@@ -34,29 +35,24 @@ export function Tables() {
   const selectedCandidate = useAppSelector((state) => state.tables.selectedCandidate);
   const buttonValue = useAppSelector((state) => state.tables.buttonValue);
   const isModalOpen = useAppSelector((state) => state.tables.isModalOpen);
+  const { userLogout } = useContext(AuthContext);
   // const projectsTableData = useAppSelector((state) => state.tables.projectsTableData);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     authorsTableData.then(res => {
-      console.log('first response in authors table', res);
       dispatch(setCandidateData(res));
     }).catch((error) => {
-      console.error('Error fetching candidate data:', error);
     });
 
     initialProjectsTableData.then(res => {
-      console.log('first response in projects table data', res);
       dispatch(setProjectsTableData(res));
     });
 
   }, [dispatch]);
 
   useEffect(() => {
-    // When candidateData or projectsTableData change, log or use the updated data
-    console.log('Updated candidateData:', candidateData);
-    console.log('Updated projectsTableData:', projectsTableData);
   }, [candidateData, projectsTableData]);
 
   const openModal = () => dispatch(setModalOpen(true));
@@ -64,7 +60,6 @@ export function Tables() {
 
   const handleCandidateUpdate = (updatedCandidate) => {
     dispatch(updateCandidate(updatedCandidate));
-    console.log('Dispatching updateCandidate with:', updatedCandidate)
     closeModal();
   };
 
@@ -91,6 +86,7 @@ export function Tables() {
 
   return (
     <>
+
       <div>
         <DashboardNavbar
           routes={routes}

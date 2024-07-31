@@ -37,9 +37,7 @@ export function DashboardNavbar({ openModal, changeButtonValue }) {
   const dispatch = useDispatch();
   const { candidateData, projectsTableData } = useSelector(selectFilteredCandidates);
   const searchField = (event) => {
-    console.log("evenet from serach", event.target.value)
     dispatch(setSearchTerm(event.target.value));
-    console.log('candidateData from searchField in dashboard', candidateData)
   }
 
 

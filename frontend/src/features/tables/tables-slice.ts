@@ -54,9 +54,9 @@ const tablesSlice = createSlice({
     updateCandidate(state, action) {
       const updatedCandidate = action.payload;
       // Update candidateData and projectsTableData
-      console.log('Previous candidateData:', state.candidateData);
-      console.log('Previous projectsTableData:', state.projectsTableData);
-      console.log('Dispatching updateCandidate with:', updatedCandidate);
+      // console.log('Previous candidateData:', state.candidateData);
+      // console.log('Previous projectsTableData:', state.projectsTableData);
+      // console.log('Dispatching updateCandidate with:', updatedCandidate);
 
       state.projectsTableData = state.projectsTableData.map(candidate =>
         candidate.id === updatedCandidate.id ? updatedCandidate : candidate
@@ -81,16 +81,19 @@ const tablesSlice = createSlice({
         if (!isInProjectsTable) {
           state.projectsTableData.push(updatedCandidate);
           state.unfilteredProjectsTableData.push(updatedCandidate);
+          
         }
       }
 
-      console.log('Updated candidateData:', state.candidateData);
-      console.log('Updated projectsTableData:', state.projectsTableData);
+      // console.log('Updated candidateData:', state.candidateData);
+      // console.log('Updated projectsTableData:', state.projectsTableData);
     },
     updateCandidateData(state, action){
       const candidateId = action.payload;
 
       state.candidateData = state.candidateData.filter(candidate => candidate.id !== candidateId);
+      state.unfilteredCandidateData = state.unfilteredCandidateData.filter(candidate => candidate.id !== candidateId);
+
     },
     setSelectedCandidate(state, action: PayloadAction<Candidate | null>) {
       state.selectedCandidate = action.payload;
@@ -104,7 +107,6 @@ const tablesSlice = createSlice({
     setProjectsTableData(state, action) {
       state.projectsTableData = action.payload;
       state.unfilteredProjectsTableData = action.payload;
-      console.log('setprojectsTableData in store:', state.projectsTableData);
     },
     removeCandidate(state, action: PayloadAction<string>) {
       const candidateId = action.payload;

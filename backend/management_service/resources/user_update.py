@@ -23,6 +23,7 @@ class CandidateUpdate(MethodView):
             candidate.role = request_data["job"]
             candidate.status = request_data["status"]
             candidate.date_for_interview = request_data["date"]
+            candidate.feedback = request_data["feedback"]
         else:
             candidate = CandidateModel(id=candidate_id, **request_data)
         db.session.add(candidate)

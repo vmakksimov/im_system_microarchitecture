@@ -5,15 +5,13 @@ import {
     Typography,
     Avatar,
     Chip,
-    Tooltip,
     Button
 } from "@material-tailwind/react";
 import { CheckIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { useAppSelector, useAppDispatch } from '../../../app/hooks';
-import { useEffect, useState } from "react";
+import { useAppDispatch } from '../../../app/hooks';
+import { useEffect } from "react";
 import { useSelector } from 'react-redux';
-import { fetchCandidates } from '../../../features/tables/candidates-thunk';
-import { setCandidateData, setProjectsTableData, removeCandidate as removeCandidateAction, selectFilteredCandidates } from "../../../features/tables/tables-slice";
+import { updateCandidateData, updateCandidate, removeCandidate as removeCandidateAction, selectFilteredCandidates } from "../../../features/tables/tables-slice";
 import * as CandidateService from '../../../services/candidates-service';
 
 const CompletedTables = ({ isFeedbackSent }) => {
@@ -22,8 +20,6 @@ const CompletedTables = ({ isFeedbackSent }) => {
     // const projectsTableData = useAppSelector((state) => state.tables.projectsTableData);
     const { candidateData, projectsTableData } = useSelector(selectFilteredCandidates);
 
-    console.log('candidate data in Completed Tables:', candidateData)
-    console.log("projects table data in Completed tables:", projectsTableData)
     const checkStatus = (value) => {
 
         if (value.includes('Approved')) {
@@ -41,8 +37,6 @@ const CompletedTables = ({ isFeedbackSent }) => {
                 // TODO implement the succesfull message
                 console.log(res)
                 dispatch(removeCandidateAction(candidateId));
-                console.log('Dispatching updateCandidate with:', updatedCandidate)
-
             })
             .catch((error) => {
                 console.log("error", error)
@@ -51,12 +45,35 @@ const CompletedTables = ({ isFeedbackSent }) => {
 
     //TODO send feedback
     const sendFeedback = (e) => {
-        console.log(e.target.textContent)
+        const status = e.target.parentElement.parentElement.parentElement.children[2].children[0].children[0].textContent.toLowerCase()
+        const candidateEmail = e.target.parentElement.parentElement.parentElement.children[0].children[0].children[1].children[1].textContent
+        let candidateId = projectsTableData.find((cand) => cand.email === candidateEmail)?.id
+        let candidateData = projectsTableData.find((cand) => cand.email === candidateEmail)
+        console.log("candidateID", candidateId)
+        console.log("candidateData", candidateData)
+        let newData = {...candidateData, feedback: "true"}
+        const { id, ...candidateWithoutId } = newData;
+        console.log('candidatewithoudID', candidateWithoutId)
+        CandidateService.editCandidate(candidateId, candidateWithoutId)
+            .then(res => {
+                console.log('res from feedback', res)
+                dispatch(updateCandidate(res));
+                if (res.status !== 'Pending'){
+                    dispatch(updateCandidateData(candidateId))
+                }
+
+                // TODO make service to Nodejs to send the notification
+            })
+            .catch((error) => {
+                console.log("Error in candidate update", error);
+            });
+
+        
+
     }
 
 
     useEffect(() => {
-        console.log('CompletedTables projectsTableData:', projectsTableData);
       }, [projectsTableData]);
     return (
         <Card>
