@@ -8,8 +8,6 @@ import {
 
 const CandidateTable = ({  changeButtonValue, setSelectedCandidate, openModal, candidateData }) => {
 
-    // const candidateData = useAppSelector((state) => state.tables.candidateData);
-
     const stageToProgress = (stage) => {
         switch (stage) {
             case 1:

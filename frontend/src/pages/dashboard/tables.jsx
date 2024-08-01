@@ -12,9 +12,12 @@ import {
   setModalOpen,
   setProjectsTableData,
   updateCandidate,
+  fetchCandidates,
+  selectFilteredCandidates,
 
-  
+
 } from '../../features/tables/tables-slice';
+
 import { authorsTableData, projectsTableData as initialProjectsTableData } from "@/data";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { useSelector } from 'react-redux';
@@ -26,7 +29,7 @@ import EditCandidateInfo from '../candidate/edit-candidate';
 import CandidateTable from './inprogress/candidate-table';
 import AddCandidate from '../candidate/add-candidate';
 import * as CandidateService from '../../services/candidates-service';
-import { selectFilteredCandidates } from '../../features/tables/tables-slice';
+// import { selectFilteredCandidates } from '../../features/tables/tables-slice';
 import { AuthContext } from '../../context/AuthContext';
 
 export function Tables() {
@@ -35,25 +38,55 @@ export function Tables() {
   const selectedCandidate = useAppSelector((state) => state.tables.selectedCandidate);
   const buttonValue = useAppSelector((state) => state.tables.buttonValue);
   const isModalOpen = useAppSelector((state) => state.tables.isModalOpen);
-  const { userLogout } = useContext(AuthContext);
   // const projectsTableData = useAppSelector((state) => state.tables.projectsTableData);
-
+  // const candidateData = useAppSelector(selectFilteredCandidates);
+  // const projectsTableData = useAppSelector(selectCompletedCandidates);
+  // const selectedCandidate = useAppSelector((state) => state.tables.selectedCandidate);
+  // const buttonValue = useAppSelector((state) => state.tables.buttonValue);
+  // const isModalOpen = useAppSelector((state) => state.tables.isModalOpen);
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
+
+
+  const fetchData = () => {
     authorsTableData.then(res => {
       dispatch(setCandidateData(res));
     }).catch((error) => {
+      console.error('Error fetching candidate data:', error);
     });
 
     initialProjectsTableData.then(res => {
       dispatch(setProjectsTableData(res));
+    }).catch((error) => {
+      console.error('Error fetching projects table data:', error);
     });
+  };
+
+
+  useEffect(() => {
+
+  }, [candidateData, projectsTableData]);
+
+  useEffect(() => {
+
+    fetchData();
 
   }, [dispatch]);
 
+
   useEffect(() => {
-  }, [candidateData, projectsTableData]);
+    const fetchData = async () => {
+      try {
+        await dispatch(fetchCandidates()).unwrap();
+        console.log('unwraped', dispatch(fetchCandidates()).unwrap());
+      } catch (error) {
+        console.error('Error dispatching fetchCandidates:', error);
+      }
+    };
+
+    fetchData();
+  }, [dispatch]);
+
 
   const openModal = () => dispatch(setModalOpen(true));
   const closeModal = () => dispatch(setModalOpen(false));

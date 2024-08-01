@@ -1,4 +1,5 @@
 // features/tables/candidates-slice.ts
+
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import * as CandidateService from '../../services/candidates-service';
 
@@ -39,8 +40,13 @@ const initialState: TablesState = {
 
 export const fetchCandidates = createAsyncThunk('candidates/fetchCandidates', async () => {
   const response = await CandidateService.getCandidates();
-  console.log('candidates from tables-slice.ts', response);
-  return response;
+  const inProgressCandidates = response.filter((candidate) => candidate.status === 'Pending');
+  const completedCandidates = response.filter((candidate) => candidate.status !== 'Pending');
+
+  return {
+    inProgressCandidates,
+    completedCandidates
+  };
 });
 
 const tablesSlice = createSlice({
@@ -145,9 +151,11 @@ const tablesSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchCandidates.fulfilled, (state, action: PayloadAction<Candidate[]>) => {
-        state.candidateData = action.payload;
-        state.unfilteredCandidateData = action.payload;
+      .addCase(fetchCandidates.fulfilled, (state, action: PayloadAction<{ inProgressCandidates: Candidate[], completedCandidates: Candidate[] }>) => {
+        state.candidateData = action.payload.inProgressCandidates;
+        state.projectsTableData = action.payload.completedCandidates;
+        state.unfilteredCandidateData = action.payload.inProgressCandidates;
+        state.unfilteredProjectsTableData = action.payload.completedCandidates;
         state.loading = false;
       })
       .addCase(fetchCandidates.rejected, (state, action) => {
@@ -166,15 +174,16 @@ export const {
   removeCandidate,
   updateCandidate,
   updateCandidateData,
-  setSearchTerm
+  setSearchTerm,
 } = tablesSlice.actions;
 
 export default tablesSlice.reducer;
 
+
+
 // Selector to get filtered candidates
-export const selectFilteredCandidates = (state: { tables: TablesState }) => {
-  return {
-    candidateData: state.tables.candidateData,
-    projectsTableData: state.tables.projectsTableData,
-  };
-};
+export const selectFilteredCandidates = (state: { tables: TablesState }) => ({
+ 
+  candidateData: state.tables.candidateData,
+  projectsTableData: state.tables.projectsTableData,
+});

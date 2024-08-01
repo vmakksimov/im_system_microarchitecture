@@ -3,11 +3,14 @@ import { AuthContext } from "../../context/AuthContext";
 import { useContext } from "react";
 import { Input, Button, Typography } from "@material-tailwind/react";
 import * as CandidateService from '../../services/candidates-service'
+import { updateCandidateData, updateCandidate, removeCandidate as removeCandidateAction} from "../../features/tables/tables-slice";
+import { useAppDispatch } from '../../app/hooks';
 import "./add-candidate.css";
 
 
 
 export function AddCandidate({ close, addCandidate }) {
+    const dispatch = useAppDispatch();
     const { addCandidateHandler } = useContext(AuthContext);
     const [formData, setFormData] = useState({
         img: "/img/team-2.jpeg",
@@ -47,8 +50,10 @@ export function AddCandidate({ close, addCandidate }) {
         
         CandidateService.createCandidate(formData)
         .then(res => {
+            console.log('response in add candidate', res)
             addCandidate(res);
             addCandidateHandler(res)
+          
         })
         .catch((error) => {
             console.log("error", error)

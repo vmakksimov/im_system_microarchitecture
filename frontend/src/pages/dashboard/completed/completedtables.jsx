@@ -10,15 +10,14 @@ import {
 import { CheckIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useAppDispatch } from '../../../app/hooks';
 import { useEffect } from "react";
-import { useSelector } from 'react-redux';
-import { updateCandidateData, updateCandidate, removeCandidate as removeCandidateAction, selectFilteredCandidates } from "../../../features/tables/tables-slice";
+import { updateCandidateData, updateCandidate, removeCandidate as removeCandidateAction} from "../../../features/tables/tables-slice";
 import * as CandidateService from '../../../services/candidates-service';
 
-const CompletedTables = ({ isFeedbackSent }) => {
+const CompletedTables = ({ isFeedbackSent, projectsTableData }) => {
     const dispatch = useAppDispatch();
     // const candidateData = useAppSelector(state => state.tables.candidateData);
     // const projectsTableData = useAppSelector((state) => state.tables.projectsTableData);
-    const { candidateData, projectsTableData } = useSelector(selectFilteredCandidates);
+    // const { candidateData, projectsTableData } = useSelector(selectFilteredCandidates);
 
     const checkStatus = (value) => {
 
@@ -28,7 +27,7 @@ const CompletedTables = ({ isFeedbackSent }) => {
         return 'Rejected'
     }
 
-    //TODO remove functionality
+
     const removeCandidate = (e) => {
         let candidateEmail = e.target.parentElement.parentElement.children[0].children[0].children[1].children[1].textContent
         let candidateId = projectsTableData.find((cand) => cand.email === candidateEmail)?.id
@@ -49,11 +48,8 @@ const CompletedTables = ({ isFeedbackSent }) => {
         const candidateEmail = e.target.parentElement.parentElement.parentElement.children[0].children[0].children[1].children[1].textContent
         let candidateId = projectsTableData.find((cand) => cand.email === candidateEmail)?.id
         let candidateData = projectsTableData.find((cand) => cand.email === candidateEmail)
-        console.log("candidateID", candidateId)
-        console.log("candidateData", candidateData)
-        let newData = {...candidateData, feedback: "true"}
+        let newData = {...candidateData, feedback: true}
         const { id, ...candidateWithoutId } = newData;
-        console.log('candidatewithoudID', candidateWithoutId)
         CandidateService.editCandidate(candidateId, candidateWithoutId)
             .then(res => {
                 console.log('res from feedback', res)
@@ -67,9 +63,6 @@ const CompletedTables = ({ isFeedbackSent }) => {
             .catch((error) => {
                 console.log("Error in candidate update", error);
             });
-
-        
-
     }
 
 
