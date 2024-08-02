@@ -23,6 +23,7 @@ interface TablesState {
   loading: boolean;
   error: string | null;
   searchTerm: string;
+  feedbackStatus: object;
 }
 
 const initialState: TablesState = {
@@ -36,7 +37,8 @@ const initialState: TablesState = {
   loading: false,
   error: null,
   searchTerm: '',
-};
+  feedbackStatus: {},
+}
 
 export const fetchCandidates = createAsyncThunk('candidates/fetchCandidates', async () => {
   const response = await CandidateService.getCandidates();
@@ -59,11 +61,7 @@ const tablesSlice = createSlice({
     },
     updateCandidate(state, action) {
       const updatedCandidate = action.payload;
-      // Update candidateData and projectsTableData
-      // console.log('Previous candidateData:', state.candidateData);
-      // console.log('Previous projectsTableData:', state.projectsTableData);
-      // console.log('Dispatching updateCandidate with:', updatedCandidate);
-
+      
       state.projectsTableData = state.projectsTableData.map(candidate =>
         candidate.id === updatedCandidate.id ? updatedCandidate : candidate
       );
@@ -79,10 +77,8 @@ const tablesSlice = createSlice({
       state.unfilteredProjectsTableData = state.unfilteredProjectsTableData.map(candidate =>
         candidate.id === updatedCandidate.id ? updatedCandidate : candidate
       );
-      
-      // Check if the updated candidate has status "Approved" or "Rejected"
+    
       if (["Approved", "Rejected"].includes(updatedCandidate.status)) {
-        // Check if the candidate is not already in projectsTableData
         const isInProjectsTable = state.projectsTableData.some(candidate => candidate.id === updatedCandidate.id);
         if (!isInProjectsTable) {
           state.projectsTableData.push(updatedCandidate);
@@ -91,8 +87,6 @@ const tablesSlice = createSlice({
         }
       }
 
-      // console.log('Updated candidateData:', state.candidateData);
-      // console.log('Updated projectsTableData:', state.projectsTableData);
     },
     updateCandidateData(state, action){
       const candidateId = action.payload;
@@ -143,6 +137,10 @@ const tablesSlice = createSlice({
         state.projectsTableData = filterCandidates(state.unfilteredProjectsTableData);
       }
     },
+    updateFeedbackStatus: (state, action) => {
+      const { candidateId, status } = action.payload;
+      state.feedbackStatus[candidateId] = status;
+    },
 
   },
   extraReducers: (builder) => {
@@ -175,6 +173,7 @@ export const {
   updateCandidate,
   updateCandidateData,
   setSearchTerm,
+  updateFeedbackStatus
 } = tablesSlice.actions;
 
 export default tablesSlice.reducer;

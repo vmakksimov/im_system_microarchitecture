@@ -1,6 +1,7 @@
 import * as request from "./request";
 
 const baseURL = 'http://localhost:5000';
+const feedbackURL = 'http://localhost:9000'
 
 
 // GET
@@ -18,3 +19,7 @@ export const editCandidate = (candidateId, userData) => request.put(baseURL, `/c
 
 // DELETE
 export const removeCandidate = (candidateId) => request.del(baseURL, `/candidate/${candidateId}`)
+
+// FEEDACK NODEJS
+
+export const sendFeedback = (candidateId) => request.post(feedbackURL, '/feedback', { candidateId });

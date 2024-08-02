@@ -148,8 +148,8 @@ export function DashboardNavbar({ openModal, changeButtonValue }) {
             </Link>
 
 
-
-            <Menu>
+            {/* TODO CONTINUE WITH THE APP BUTTONS OF FUNCTIONS */}
+            {/* <Menu>
               <MenuHandler>
                 <IconButton variant="text" color="blue-gray">
                   <BellIcon className="h-5 w-5 text-blue-gray-500" />
@@ -226,14 +226,14 @@ export function DashboardNavbar({ openModal, changeButtonValue }) {
                   </div>
                 </MenuItem>
               </MenuList>
-            </Menu>
-            <IconButton
+            </Menu> */}
+            {/* <IconButton
               variant="text"
               color="blue-gray"
               onClick={() => setOpenConfigurator(tailwindDispatch, true)}
             >
               <Cog6ToothIcon className="h-5 w-5 text-blue-gray-500" />
-            </IconButton>
+            </IconButton> */}
           </div>
         </div>
 

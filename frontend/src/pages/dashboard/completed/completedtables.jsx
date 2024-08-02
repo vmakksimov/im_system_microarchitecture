@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import {
     Card,
     CardHeader,
@@ -8,66 +9,96 @@ import {
     Button
 } from "@material-tailwind/react";
 import { CheckIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { useAppDispatch } from '../../../app/hooks';
-import { useEffect } from "react";
-import { updateCandidateData, updateCandidate, removeCandidate as removeCandidateAction} from "../../../features/tables/tables-slice";
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { updateCandidateData, updateCandidate, removeCandidate as removeCandidateAction, updateFeedbackStatus } from "../../../features/tables/tables-slice";
 import * as CandidateService from '../../../services/candidates-service';
 
 const CompletedTables = ({ isFeedbackSent, projectsTableData }) => {
     const dispatch = useAppDispatch();
-    // const candidateData = useAppSelector(state => state.tables.candidateData);
-    // const projectsTableData = useAppSelector((state) => state.tables.projectsTableData);
-    // const { candidateData, projectsTableData } = useSelector(selectFilteredCandidates);
+    const [popupMessage, setPopupMessage] = useState('');
+    const [popupColor, setPopupColor] = useState('');
+    const [showPopup, setShowPopup] = useState(false);
+    const feedbackStatus = useAppSelector(state => state.tables.feedbackStatus);
+    
 
     const checkStatus = (value) => {
-
         if (value.includes('Approved')) {
-            return 'Approved'
+            return 'Approved';
         }
-        return 'Rejected'
-    }
-
+        return 'Rejected';
+    };
 
     const removeCandidate = (e) => {
-        let candidateEmail = e.target.parentElement.parentElement.children[0].children[0].children[1].children[1].textContent
-        let candidateId = projectsTableData.find((cand) => cand.email === candidateEmail)?.id
+        let candidateEmail = e.target.parentElement.parentElement.children[0].children[0].children[1].children[1].textContent;
+        let candidateId = projectsTableData.find((cand) => cand.email === candidateEmail)?.id;
         CandidateService.removeCandidate(candidateId)
             .then(res => {
-                // TODO implement the succesfull message
-                console.log(res)
+                console.log(res);
                 dispatch(removeCandidateAction(candidateId));
             })
             .catch((error) => {
-                console.log("error", error)
-            })
-    }
+                console.log("error", error);
+            });
+    };
 
-    //TODO send feedback
     const sendFeedback = (e) => {
-        const status = e.target.parentElement.parentElement.parentElement.children[2].children[0].children[0].textContent.toLowerCase()
-        const candidateEmail = e.target.parentElement.parentElement.parentElement.children[0].children[0].children[1].children[1].textContent
-        let candidateId = projectsTableData.find((cand) => cand.email === candidateEmail)?.id
-        let candidateData = projectsTableData.find((cand) => cand.email === candidateEmail)
-        let newData = {...candidateData, feedback: true}
+        const status = e.target.parentElement.parentElement.parentElement.children[2].children[0].children[0].textContent.toLowerCase();
+        const candidateEmail = e.target.parentElement.parentElement.parentElement.children[0].children[0].children[1].children[1].textContent;
+        let candidateId = projectsTableData.find((cand) => cand.email === candidateEmail)?.id;
+        let candidateData = projectsTableData.find((cand) => cand.email === candidateEmail);
+        let newData = { ...candidateData, feedback: true };
         const { id, ...candidateWithoutId } = newData;
         CandidateService.editCandidate(candidateId, candidateWithoutId)
             .then(res => {
-                console.log('res from feedback', res)
+                console.log('res from feedback', res);
                 dispatch(updateCandidate(res));
-                if (res.status !== 'Pending'){
-                    dispatch(updateCandidateData(candidateId))
+                if (res.status !== 'Pending') {
+                    dispatch(updateCandidateData(candidateId));
                 }
 
-                // TODO make service to Nodejs to send the notification
+                console.log('candidate ID before sendFeedback', candidateId)
+                CandidateService.sendFeedback(candidateId)
+                    .then(res => {
+                        console.log("response from feedback", res);
+                        if (res.status === 200) {
+                           
+                            setPopupMessage('Feedback has been sent successfully!');
+                            setPopupColor('bg-green-500');
+                            setShowPopup(true);
+                            dispatch(updateFeedbackStatus({ candidateId, status: 'success' })); // Update feedback status
+                            setTimeout(() => {
+                                setShowPopup(false);
+                            }, 3000);
+                        } else {
+                            setPopupMessage('Feedback was not sent!');
+                            setPopupColor('bg-red-500');
+                            setShowPopup(true);
+                            dispatch(updateFeedbackStatus({ candidateId, status: 'failure' })); // Update feedback status
+                            setTimeout(() => {
+                                setShowPopup(false);
+                            }, 3000);
+                        }
+                    })
+                    .catch((error) => {
+                        console.log("Error in candidate update feedback", error);
+                        setPopupMessage('Feedback was not sent!');
+                        setPopupColor('bg-red-500');
+                        setShowPopup(true);
+                        dispatch(updateFeedbackStatus({ candidateId, status: 'failure' })); // Update feedback status
+                        setTimeout(() => {
+                            setShowPopup(false);
+                        }, 3000);
+                    });
             })
             .catch((error) => {
                 console.log("Error in candidate update", error);
             });
-    }
+    };
 
 
-    useEffect(() => {
-      }, [projectsTableData]);
+
+    useEffect(() => { }, [projectsTableData]);
+
     return (
         <Card>
             <CardHeader variant="gradient" color="gray" className="mb-8 p-6">
@@ -103,6 +134,7 @@ const CompletedTables = ({ isFeedbackSent, projectsTableData }) => {
                                     ? ""
                                     : "border-b border-blue-gray-50"
                                     }`;
+                                const candidateId = projectsTableData.find((cand) => cand.email === email)?.id;
 
                                 return (
                                     <tr key={name}>
@@ -125,18 +157,6 @@ const CompletedTables = ({ isFeedbackSent, projectsTableData }) => {
                                         </td>
                                         <td className={className}>
                                             {job}
-                                            {/* {members.map(({ img, name }, key) => (
-                                              <Tooltip key={name} content={name}>
-                                                  <Avatar
-                                                      src={img}
-                                                      alt={name}
-                                                      size="xs"
-                                                      variant="circular"
-                                                      className={`cursor-pointer border-2 border-white ${key === 0 ? "" : "-ml-2.5"
-                                                          }`}
-                                                  />
-                                              </Tooltip>
-                                          ))} */}
                                         </td>
                                         <td className={className}>
                                             <Chip
@@ -152,12 +172,12 @@ const CompletedTables = ({ isFeedbackSent, projectsTableData }) => {
                                                     variant="small"
                                                     className="mb-1 block text-xs font-medium text-blue-gray-600"
                                                 >
-                                                    {feedback
+                                               
+                                               {feedbackStatus[candidateId] === 'success'
                                                         ? <><span><CheckIcon className="h-6 w-6 text-green-500 ml-2" /></span></>
                                                         : <><span><XMarkIcon className="h-6 w-6 text-red-500 ml-2" /></span></>
                                                     }
                                                 </Typography>
-
                                             </div>
                                         </td>
                                         <td className={className}>
@@ -179,17 +199,14 @@ const CompletedTables = ({ isFeedbackSent, projectsTableData }) => {
                                             </Typography>
                                         </td>
                                         <td className={className}>
-
                                             <Typography
                                                 as="a"
                                                 href="#"
                                                 className="text-xs font-semibold text-blue-gray-600"
                                                 onClick={removeCandidate}
-
                                             >
                                                 Remove
                                             </Typography>
-
                                         </td>
                                     </tr>
                                 );
@@ -206,6 +223,12 @@ const CompletedTables = ({ isFeedbackSent, projectsTableData }) => {
                     </tbody>
                 </table>
             </CardBody>
+
+            {showPopup && (
+                <div className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white p-4 rounded shadow-lg ${popupColor}`}>
+                    {popupMessage}
+                </div>
+            )}
         </Card>
     )
 }

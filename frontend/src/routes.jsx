@@ -29,7 +29,7 @@ export const privateRoutes = [
     element: <Home />,
   },
   {
-    name: "tables",
+    name: "dashboard",
     path: "/tables",
     element: <Tables />,
   },
@@ -43,11 +43,11 @@ export const privateRoutes = [
     path: "/logout",
     element: <Logout />,
   },
-  {
-    name: "notifications",
-    path: "/notifications",
-    element: <Notifications />,
-  },
+  // {
+  //   name: "notifications",
+  //   path: "/notifications",
+  //   element: <Notifications />,
+  // },
 ];
 
 export default { publicRoutes, privateRoutes };

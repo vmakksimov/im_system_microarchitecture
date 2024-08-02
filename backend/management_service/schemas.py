@@ -18,3 +18,6 @@ class CandidateUpdateSchema(Schema):
     role = fields.String(required=False)
     status = fields.String(required=False)
     date_for_interview = fields.Date(required=False)
+
+class CandidateFeedBackSchema(Schema):
+    feedback = fields.Bool(dump_only=True)

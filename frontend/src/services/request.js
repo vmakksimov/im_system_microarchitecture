@@ -13,7 +13,7 @@ export const request = async (baseURL, url, method, data) => {
 
         const options = {
             baseURL,
-            url,
+            url: url.startsWith('/') ? url : `/${url}`,
             method,
             headers,
         };
