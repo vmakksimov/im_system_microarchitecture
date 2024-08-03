@@ -15,15 +15,16 @@ export default defineConfig({
   resolve: {
     alias: [
       { find: "@", replacement: path.resolve(__dirname, "./src") },
-      
-     
     ],
   },
+  build: {
+    // Base path for deployment if your app is served from a subpath or domain
+    // Example: If your app is served from `https://example.com/myapp/`, set base to '/myapp/'
+    base: '/',
+  },
   server: {
-    host: '0.0.0.0',  // Bind to all network interfaces
-    port: 5173,        // Ensure this port is exposed in the container
-  }
-
-  
-
+    // Server settings for development
+    host: '0.0.0.0', // Bind to all network interfaces
+    port: 5173, // Port for development server
+  },
 });

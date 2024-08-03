@@ -65,7 +65,7 @@ const CompletedTables = ({ isFeedbackSent, projectsTableData }) => {
                             setPopupMessage('Feedback has been sent successfully!');
                             setPopupColor('bg-green-500');
                             setShowPopup(true);
-                            dispatch(updateFeedbackStatus({ candidateId, status: 'success' })); // Update feedback status
+                            dispatch(updateFeedbackStatus({ candidateId, status: 'success' }));
                             setTimeout(() => {
                                 setShowPopup(false);
                             }, 3000);
@@ -73,7 +73,7 @@ const CompletedTables = ({ isFeedbackSent, projectsTableData }) => {
                             setPopupMessage('Feedback was not sent!');
                             setPopupColor('bg-red-500');
                             setShowPopup(true);
-                            dispatch(updateFeedbackStatus({ candidateId, status: 'failure' })); // Update feedback status
+                            dispatch(updateFeedbackStatus({ candidateId, status: 'failure' }));
                             setTimeout(() => {
                                 setShowPopup(false);
                             }, 3000);

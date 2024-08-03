@@ -1,5 +1,5 @@
-# Use an official node image as the base image
-FROM node
+# Use an official Node.js image as the base image
+FROM node as build
 
 # Set the working directory
 WORKDIR /app
@@ -16,11 +16,17 @@ COPY . .
 # Build the app for production
 RUN npm run build
 
-# Install serve to serve the app
-# RUN npm install -g serve
+# Stage 2: Serve the app using Nginx
+FROM nginx:alpine
 
-# Expose the port the app runs on
-EXPOSE 5173
-CMD ["npm", "run", "dev"]
-# Start the application using serve
-# CMD ["serve", "-s", "dist", "-l", "5173"]
+# Copy the build output to the Nginx HTML directory
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Copy custom Nginx configuration
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Expose port 80
+EXPOSE 80
+
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]

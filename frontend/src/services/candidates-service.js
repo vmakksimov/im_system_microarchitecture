@@ -1,7 +1,9 @@
 import * as request from "./request";
 
-const baseURL = 'http://localhost:5000';
-const feedbackURL = 'http://localhost:9000'
+// const baseURL = 'http://localhost:5000';
+// const feedbackURL = 'http://localhost:9000';
+const baseURL = '/management_service'; 
+const feedbackURL = '/notification_service';
 
 
 // GET

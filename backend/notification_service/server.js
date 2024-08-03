@@ -33,15 +33,16 @@ app.post("/feedback", async (req, res) => {
     const token = req.headers.authorization; 
     console.log('candidateID', candidateId)
     console.log('token', token)
+    console.log('baseURL in nodejs', baseURL)
 
     try {
         
-        const response = await axios.get(`${baseURL}/feedbackk/${candidateId}`, {
+        const response = await axios.get(`${baseURL}/feedback/${candidateId}`, {
             headers: {
                 'Authorization': token,
             }
         });
-        
+        console.log('baseURL in nodejs', baseURL)
         const feedbackStatus = response.data;
 
         

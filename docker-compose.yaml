@@ -29,18 +29,29 @@ services:
     depends_on:
       - db-flask-ms
 
-  frontend:
+  notification_service:
     build:
-      context: ./frontend
+      context: ./backend/notification_service
     volumes:
-      - ./frontend:/app
-      - /app/node_modules
+      - ./backend/notification_service:/app
     ports:
-      - "5173:5173"
+      - "9000:9000"
     env_file:
-      - ./frontend/.env
+      - ./backend/notification_service/.env
     networks:
-      - frontend
+      - backend
+    
+
+  frontend:
+  build:
+    context: ./frontend
+  volumes:
+    - ./frontend:/app
+    - /app/node_modules
+  ports:
+    - "80:80"
+  networks:
+    - frontend
   
   db-flask-ms:
     image: postgres
