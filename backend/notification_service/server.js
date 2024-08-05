@@ -28,16 +28,16 @@ app.use(cors({
 
 app.use(express.json());
 
-app.post("/feedback", async (req, res) => {
+app.post("/notification_service/feedback", async (req, res) => {
     const { candidateId } = req.body; 
     const token = req.headers.authorization; 
     console.log('candidateID', candidateId)
     console.log('token', token)
-    console.log('baseURL in nodejs', baseURL)
+    
 
     try {
         
-        const response = await axios.get(`${baseURL}/feedback/${candidateId}`, {
+        const response = await axios.get(`/management_service/feedback/${candidateId}`, {
             headers: {
                 'Authorization': token,
             }

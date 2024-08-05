@@ -19,7 +19,7 @@ def create_app():
     app.config['SECRET_KEY'] = os.getenv('DJANGO_SECRET_KEY')
     CORS(app, resources={
         r"/*": {
-            "origins": ["http://localhost:3000", "http://localhost:5173", "http://localhost:9000"],
+            "origins": ["http://localhost:3000", "http://localhost:5173", "http://localhost:9000", "https://www.vmakksimov.site"],
             "allow_headers": [
                 "Content-Type",
                 "X-CSRFToken",

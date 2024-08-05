@@ -56,6 +56,7 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:5173',
+    'https://www.vmakksimov.site./'
 ]
 CORS_EXPOSE_HEADERS = [
   "Content-Type",

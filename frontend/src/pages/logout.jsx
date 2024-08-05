@@ -1,24 +1,20 @@
 // Logout.jsx
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {useContext } from 'react'
-import {AuthContext} from '../context/AuthContext'
-import axios from 'axios';
+import { useContext } from 'react'
+import { AuthContext } from '../context/AuthContext'
+import * as AuthService from '../services/auth-service'
 
 const Logout = () => {
   const navigate = useNavigate();
 
-  const {userLogout} = useContext(AuthContext);
-
+  const { token, userLogout } = useContext(AuthContext);
 
   useEffect(() => {
-    // Notify the backend to log out the user
-    axios.get('http://localhost:8000/auth/api/logout/')
+    AuthService.logout(token)
       .then(response => {
-        // Clear the token from local storage
-        // localStorage.removeItem('authToken');
+        localStorage.removeItem('access');
         userLogout();
-        // Redirect to the home page or sign-in page
         navigate('/home');
       })
       .catch(error => {

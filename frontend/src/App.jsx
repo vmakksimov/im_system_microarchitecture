@@ -44,7 +44,7 @@ function App() {
     const token = localStorage.getItem('access')
 
     return (
-        <AuthContext.Provider value={{userLogin, userLogout, isAuthenticated, addCandidateHandler, editCandidateHandler }}>
+        <AuthContext.Provider value={{userLogin, userLogout, token, isAuthenticated, addCandidateHandler, editCandidateHandler }}>
             {/* {!token.includes("no token") ?  */}
             <>
             

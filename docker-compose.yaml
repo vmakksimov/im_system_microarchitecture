@@ -40,19 +40,20 @@ services:
       - ./backend/notification_service/.env
     networks:
       - backend
-    
 
   frontend:
-  build:
-    context: ./frontend
-  volumes:
-    - ./frontend:/app
-    - /app/node_modules
-  ports:
-    - "80:80"
-  networks:
-    - frontend
-  
+    build:
+      context: ./frontend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    env_file:
+      - ./frontend/.env
+    networks:
+      - frontend
+
   db-flask-ms:
     image: postgres
     ports:
@@ -62,10 +63,10 @@ services:
       - ./backend/management_service/.env
     volumes:
       - ./backend/management_service/postgres-data:/var/lib/postgresql/data
-    command: ["postgres", "-c", "port=5430"]
+    command: [ "postgres", "-c", "port=5430" ]
     networks:
       - backend
-  
+
   db-django-auth:
     image: postgres
     ports:

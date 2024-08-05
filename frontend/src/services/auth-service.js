@@ -7,16 +7,16 @@ export const login = (email, password) => request.post(baseUrl, `auth/api/token/
 export const register = (email, password, password2) => request.post(baseUrl, `auth/register/`, { email, password, password2 })
 export const logout = async (accessToken) => {
     try {
-        const response = await fetch(baseUrl, `logout`, {
+        const response = await fetch(baseUrl, `api/logout/`, {
             headers: {
-                'X-Authorization': accessToken
+                'Authorization': accessToken
             }
         })
 
         return response;
 
     } catch (error) {
-
+        console.log("error from logout", error)
     }
 }
 
