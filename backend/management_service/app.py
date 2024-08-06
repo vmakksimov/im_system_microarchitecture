@@ -1,5 +1,4 @@
 import os
-import jwt
 from flask import Flask, jsonify, request, Response, g
 from dotenv import load_dotenv
 from flask_cors import CORS
