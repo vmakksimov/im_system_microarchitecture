@@ -11,6 +11,12 @@ export const request = async (baseURL, url, method, data) => {
             headers['Authorization'] = `Bearer ${auth.access}`;
         }
 
+        const csrfToken = document.cookie.split('; ').find(row => row.startsWith('csrftoken=')).split('=')[1];
+        if (csrfToken) {
+            headers['X-CSRFToken'] = csrfToken;
+        }
+
+
         const options = {
             baseURL,
             url: url.startsWith('/') ? url : `/${url}`,

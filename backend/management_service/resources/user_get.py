@@ -17,7 +17,6 @@ class CandidatesList(MethodView):
         
         return CandidateModel.query.all()
     
-    
 
 @blp.route("/candidates/<int:candidate_id>")
 class Candidate(MethodView):

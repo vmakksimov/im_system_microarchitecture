@@ -63,6 +63,17 @@ CORS_EXPOSE_HEADERS = [
   "X-CSRFToken"
 ]
 
+
+# FOR PRODUCTION
+# CORS_ALLOWED_ORIGINS = [
+#     'https://www.interview-manager.site',
+# ] 
+
+CSRF_COOKIE_NAME = 'csrftoken'
+CSRF_COOKIE_SECURE = True  # Set to False if you're not using HTTPS
+CSRF_COOKIE_HTTPONLY = False
+CSRF_COOKIE_SAMESITE = 'Lax'
+
 CORS_ALLOW_HEADERS = default_headers + ('cache-control', 'Access-Control-Allow-Origin', '*',)
 
 APPEND_SLASH = False
