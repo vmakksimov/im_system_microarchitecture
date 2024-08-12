@@ -31,9 +31,9 @@ export function Home() {
                 Your story starts with us.
               </Typography>
               <Typography variant="lead" color="white" className="opacity-80">
-                This is a simple example of a Landing Page you can build using
-                Material Tailwind. It features multiple components based on the
-                Tailwind CSS and Material Design by Google.
+                This is a simple demo for interview managament process. You can
+                automate the process of interview and interact with candidates
+                fully automated.
               </Typography>
             </div>
           </div>
