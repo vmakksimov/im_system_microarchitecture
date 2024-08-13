@@ -5,24 +5,24 @@ import {
 export const featuresData = [
   {
     color: "gray",
-    title: "Awarded Agency",
+    title: "Efficient Interview Tracking",
     icon: ChatBubbleBottomCenterTextIcon,
     description:
-      "Divide details about your product or agency work into parts. A paragraph describing a feature will be enough.",
+      "Manage every stage of your interview process with ease. Our platform allows you to track candidate status, update interview stages, and automate feedback—all from one intuitive dashboard.",
   },
   {
     color: "gray",
-    title: "Free Revisions",
+    title: "Automated Communication",
     icon: ChatBubbleBottomCenterTextIcon,
     description:
-      "Keep you user engaged by providing meaningful information. Remember that by this time, the user is curious.",
+      "Say goodbye to manual updates. Automatically notify candidates of their interview status, job offers, or rejection feedback with a single click, ensuring timely and professional communication.",
   },
   {
     color: "gray",
-    title: "Verified Company",
+    title: "Data-Driven Insights",
     icon: ChatBubbleBottomCenterTextIcon,
     description:
-      "Write a few lines about each one. A paragraph describing a feature will be enough. Keep you user engaged!",
+      "Gain valuable insights into your hiring process with our comprehensive analytics tools. Track metrics, analyze trends, and make data-driven decisions to refine your recruitment strategy.",
   },
 ];
 

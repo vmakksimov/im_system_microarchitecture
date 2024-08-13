@@ -64,17 +64,13 @@ export function Home() {
                 className="mb-3 font-bold"
                 color="blue-gray"
               >
-                Working with us is a pleasure
+                Intuitive Interface
               </Typography>
               <Typography className="mb-8 font-normal text-blue-gray-500">
-                Don't let your uses guess by attaching tooltips and popoves to
-                any element. Just make sure you enable them first via
-                JavaScript.
+              Experience a user-friendly interface designed to simplify complex workflows. Our platform's streamlined design helps you focus on what matters most: finding and hiring the right candidates.
                 <br />
                 <br />
-                The kit comes with three pre-built pages to help you get started
-                faster. You can change the text and images and you're good to
-                go. Just make sure you enable them first via JavaScript.
+                Rest assured knowing your interview data is secure. We prioritize data privacy and compliance, providing a safe environment for all your candidate and interview information.
               </Typography>
               <Button variant="filled">read more</Button>
             </div>
@@ -94,12 +90,10 @@ export function Home() {
                     color="blue-gray"
                     className="mb-3 mt-2 font-bold"
                   >
-                    Top Notch Services
+                    Quick Setup and Integration
                   </Typography>
                   <Typography className="font-normal text-blue-gray-500">
-                    The Arctic Ocean freezes every winter and much of the
-                    sea-ice then thaws every summer, and that process will
-                    continue whatever happens.
+                  Our platform is designed for rapid deployment. Integrate seamlessly with your existing tools and start managing your interview processes efficiently without delay.
                   </Typography>
                 </CardBody>
               </Card>
