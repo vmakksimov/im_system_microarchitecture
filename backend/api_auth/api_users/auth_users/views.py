@@ -6,6 +6,12 @@ from django.contrib.auth import login
 from django.contrib.auth import logout
 from django.contrib.auth.hashers import make_password
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+from django.http import JsonResponse
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.middleware.csrf import get_token
+from django.views.decorators.csrf import csrf_protect
+from django.utils.decorators import method_decorator
 from rest_framework import permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -51,13 +57,34 @@ class GoogleLoginApi(APIView):
         user_data = get_user_data(validated_data)
         
         user = CustomModelUser.objects.get(email=user_data['email'])
-        login(request, user)
-        print("base", os.environ.get("BASE_APP_URL"))
         token = user_data['token']
         frontend_url = os.environ.get("BASE_APP_URL")
-        return redirect(frontend_url + f'?token={token}')
+        csrf_token = get_token(request)
+        
+        # Create a temporary, secure cookie with the token
+        response = HttpResponseRedirect(frontend_url + '/auth-callback')
+        response.set_cookie('temp_token', token, httponly=True, secure=False, samesite='Lax', max_age=300)  # max_age: 5 minutes
+        return response        
+        
+        #login(request, user)
+        # return redirect(frontend_url + f'?token={token}')
 
-        # return redirect(os.environ.get("BASE_APP_URL"))
+
+@method_decorator(csrf_protect, name='dispatch')
+class ExchangeTokenView(APIView):
+    def post(self, request):
+        print('request in exchange', request)
+        # csfr = request.COOKIES.get('csrftoken')
+        # print('csfr in exchange', csfr)
+        temp_token = request.COOKIES.get('temp_token')
+        if not temp_token:
+            return Response({'error': 'No temporary token found'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Here, you might want to add additional validation of the temp_token
+        
+        response = Response({'token': temp_token})
+        response.delete_cookie('temp_token')
+        return response
 
 class SetPasswordView(APIView):
     permission_classes = [permissions.IsAuthenticated]

@@ -11,10 +11,10 @@ export const request = async (baseURL, url, method, data) => {
             headers['Authorization'] = `Bearer ${auth.access}`;
         }
 
-        const csrfToken = document.cookie.split('; ').find(row => row.startsWith('csrftoken=')).split('=')[1];
-        if (csrfToken) {
-            headers['X-CSRFToken'] = csrfToken;
-        }
+        // const csrfToken = document.cookie.split('; ').find(row => row.startsWith('csrftoken=')).split('=')[1];
+        // if (csrfToken) {
+        //     headers['X-CSRFToken'] = csrfToken;
+        // }
 
 
         const options = {
@@ -22,9 +22,14 @@ export const request = async (baseURL, url, method, data) => {
             url: url.startsWith('/') ? url : `/${url}`,
             method,
             headers,
+            withCredentials: true, 
         };
 
         if (method !== 'GET') {
+            const csrfToken = getCookie('csrftoken');
+            if (csrfToken) {
+                headers['X-CSRFToken'] = csrfToken;
+            }
             options.headers['Content-Type'] = 'application/json';
             options.data = JSON.stringify(data);
         }
@@ -55,6 +60,21 @@ export const request = async (baseURL, url, method, data) => {
         // }
     }
 };
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
 
 const refreshAccessToken = async () => {
     let auth = JSON.parse(localStorage.getItem('access') || '{}');

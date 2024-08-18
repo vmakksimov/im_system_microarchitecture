@@ -53,7 +53,7 @@ SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ALLOW_ALL_ORIGINS = True
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:5173',
     'https://www.vmakksimov.site.'
@@ -63,6 +63,19 @@ CORS_EXPOSE_HEADERS = [
   "X-CSRFToken"
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',
+    'https://www.vmakksimov.site',
+    'https://www.interview-manager.site',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:5173',
+    'https://www.vmakksimov.site',
+    'https://www.interview-manager.site',
+    'http://localhost:8000',  # Your backend
+]
+
 
 # FOR PRODUCTION
 # CORS_ALLOWED_ORIGINS = [
@@ -70,7 +83,7 @@ CORS_EXPOSE_HEADERS = [
 # ] 
 
 CSRF_COOKIE_NAME = 'csrftoken'
-CSRF_COOKIE_SECURE = True  # Set to False if you're not using HTTPS
+CSRF_COOKIE_SECURE = False  # Set to False if you're not using HTTPS
 CSRF_COOKIE_HTTPONLY = False
 CSRF_COOKIE_SAMESITE = 'Lax'
 
@@ -229,4 +242,5 @@ SIMPLE_JWT = {
     'ALGORITHM': 'HS256',
     'SIGNING_KEY': os.environ.get("SECRET_KEY"),
     'AUTH_HEADER_TYPES': ('Bearer',),
+    
 }

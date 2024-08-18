@@ -42,7 +42,6 @@ export function SignIn() {
 
   const handleGoogleLogin = async () => {
     const api = process.env.BASE_API_URL;
-    console.log("api", api);
     const GOOGLE_AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
     const REDIRECT_URI = 'auth/api/login/google/';
 
@@ -63,7 +62,7 @@ export function SignIn() {
     const urlParams = new URLSearchParams(params).toString();
     // userLogin({
     //   token: 'token'})
-    console.log("URL Params", urlParams)
+    
     window.location = `${GOOGLE_AUTH_URL}?${urlParams}`;
 };
   return (

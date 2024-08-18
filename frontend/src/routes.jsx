@@ -19,6 +19,12 @@ export const publicRoutes = [
     path: "/sign-up",
     element: <SignUp />,
   },
+  // {
+  //   name: "authcallback",
+  //   path: "/auth-callback",
+  //   element: <AuthCallback />,
+  // },
+
 
 ];
 
@@ -43,6 +49,11 @@ export const privateRoutes = [
     path: "/logout",
     element: <Logout />,
   },
+  // {
+  //   name: "authcallback",
+  //   path: "/auth-callback",
+  //   element: <AuthCallback />,
+  // },
   // {
   //   name: "notifications",
   //   path: "/notifications",

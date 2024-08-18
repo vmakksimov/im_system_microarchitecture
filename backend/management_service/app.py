@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 from flask_cors import CORS
 from flask_smorest import Api
 from flask_migrate import Migrate
+from flask_wtf.csrf import CSRFProtect
+from flask_wtf.csrf import generate_csrf
 from resources.user_create import blp as CandidateCreateBlueprint
 from resources.user_get import blp as CandidateGetBlueprint
 from resources.user_update import blp as CandidateUpdateBlueprint
@@ -16,6 +18,11 @@ load_dotenv()
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = os.getenv('DJANGO_SECRET_KEY')
+    # app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+    # app.config['WTF_CSRF_ENABLED'] = True
+    # app.config['WTF_CSRF_TIME_LIMIT'] = None
+
+    # csrf = CSRFProtect(app)
     CORS(app, resources={
         r"/*": {
             "origins": ["http://localhost:3000", "http://localhost:5173", "http://localhost:9000", "https://www.vmakksimov.site"],
@@ -38,6 +45,12 @@ def create_app():
     def handle_options_request():
         if request.method.lower() == 'options':
             return Response(status=200)
+        
+
+    # @app.after_request
+    # def set_csrf_token(response):
+    #     response.set_cookie('csrftoken', generate_csrf())
+    #     return response
         
     app.config['CORS_HEADERS'] = 'Content-Type'
     app.config["PROPAGATE_EXCEPTIONS"] = True

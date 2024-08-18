@@ -23,7 +23,8 @@ app.use(cors({
         }
     },
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific methods if needed
-    allowedHeaders: ['Content-Type', 'Authorization'], // Allow specific headers if needed
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-CSRFToken'],  // Add X-CSRFToken here
+    credentials: true
 }));
 
 app.use(express.json());
@@ -37,7 +38,7 @@ app.post("/feedback", async (req, res) => {
 
     try {
         
-        const response = await axios.get(`/feedback/${candidateId}`, {
+        const response = await axios.get(`${baseURL}/feedback/${candidateId}`, {
             headers: {
                 'Authorization': token,
             }

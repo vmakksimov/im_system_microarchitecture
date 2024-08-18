@@ -68,7 +68,7 @@ function App() {
                 <Route path="*" element={<Navigate to="/home" replace />} />
                
                     <Route path="/tables/*" element={<Tables />} />
-                    <Route path="/auth/callback" element={<AuthCallback />} />
+                    <Route path="/auth-callback" element={<AuthCallback />} />
                
 
 
