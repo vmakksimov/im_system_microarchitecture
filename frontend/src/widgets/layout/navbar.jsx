@@ -87,26 +87,29 @@ export function Navbar({ brandName, routes, action }) {
           )}
         </IconButton>
       </div>
-      {/* <MobileNav
-        className="rounded-xl bg-white px-4 pt-2 pb-4 text-blue-gray-900"
-        open={openNav}
-      >
-        <div className="container mx-auto">
-          {navList}
-          <a
-            href="https://www.material-tailwind.com/blocks/react?ref=mtkr"
-            target="_blank"
-            className="mb-2 block"
-          >
-            <Button variant="text" size="sm" fullWidth>
-              pro version
-            </Button>
-          </a>
-          {React.cloneElement(action, {
-            className: "w-full block",
-          })}
-        </div>
-      </MobileNav> */}
+      {openNav && 
+      <Collapse
+      className="rounded-xl bg-white px-6 pt-4 pb-8 text-blue-gray-900"
+      open={openNav}
+    >
+      <div className="container mx-auto">
+        {navList}
+        <a
+          href="https://www.material-tailwind.com/blocks/react?ref=mtkr"
+          target="_blank"
+          className="mb-2 block"
+        >
+          {/* <Button variant="text" size="sm" fullWidth>
+            pro version
+          </Button> */}
+        </a>
+        {/* {React.cloneElement(action, {
+          className: "w-full block",
+        })} */}
+      </div>
+    </Collapse>
+      }
+      
     </MTNavbar>
   );
 }
@@ -118,9 +121,9 @@ Navbar.defaultProps = {
       href="https://www.creative-tim.com/product/material-tailwind-kit-react"
       target="_blank"
     >
-      <Button variant="gradient" size="sm" fullWidth>
+      {/* <Button variant="gradient" size="sm" fullWidth>
         free download
-      </Button>
+      </Button> */}
     </a>
   ),
 };

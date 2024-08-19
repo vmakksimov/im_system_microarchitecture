@@ -29,7 +29,7 @@
     flex-direction: column;
     z-index: 2; /* Place it above the particles */
     background: rgba(255, 255, 255, 0.95); /* Semi-transparent white background */
-    padding: 3rem;
+    padding: 2rem;
     border-radius: 1rem;
     box-shadow: 0 4px 6px 7px rgba(0, 0, 0, 0.1);
  
@@ -37,7 +37,7 @@
   
   .form-background form {
     background: transparent; /* Transparent form background */
-    padding: 2rem;
+    padding: 0rem;
     border-radius: 1rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 100%;

@@ -25,11 +25,11 @@ function AuthCallback() {
           },
         });
 
-        console.log("response in authcallback",response)
+        
         
         if (response.ok) {
           const data = await response.json();
-          console.log("data in authcallback", data)
+         
           localStorage.setItem('access', data.token);
           userLogin({"access": data.token});
           navigate('/tables');

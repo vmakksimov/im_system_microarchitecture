@@ -5,20 +5,13 @@ import {
   Button,
   IconButton,
   Breadcrumbs,
-  Input,
-  Menu,
-  MenuHandler,
-  MenuList,
-  MenuItem,
-  Avatar,
+  Input
 } from "@material-tailwind/react";
 import {
   UserCircleIcon,
-  Cog6ToothIcon,
-  BellIcon,
-  ClockIcon,
-  CreditCardIcon,
   Bars3Icon,
+  PlusIcon,
+  ArrowRightOnRectangleIcon
 } from "@heroicons/react/24/solid";
 import {
   useMaterialTailwindController,
@@ -83,14 +76,14 @@ export function DashboardNavbar({ openModal, changeButtonValue }) {
             <div className="mr-auto md:mr-4 md:w-56">
               <Input label="Search" onChange={searchField} />
             </div>
-            <IconButton
+            {/* <IconButton
               variant="text"
               color="blue-gray"
               className="grid xl:hidden"
               onClick={() => setOpenSidenav(tailwindDispatch, !openSidenav)}
             >
               <Bars3Icon strokeWidth={3} className="h-6 w-6 text-blue-gray-500" />
-            </IconButton>
+            </IconButton> */}
             <Link to="/home">
               <Button
                 variant="text"
@@ -125,8 +118,10 @@ export function DashboardNavbar({ openModal, changeButtonValue }) {
               variant="text"
               color="blue-gray"
               className="grid xl:hidden"
+              onClick={(e) => {changeButtonValue(e); openModal(); }}
             >
-              <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
+              <PlusIcon className="h-5 w-5 text-blue-gray-500" />
+              
             </IconButton>
 
             <Link to="/logout">
@@ -143,7 +138,7 @@ export function DashboardNavbar({ openModal, changeButtonValue }) {
                 color="blue-gray"
                 className="grid xl:hidden"
               >
-                <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
+                <ArrowRightOnRectangleIcon className="h-5 w-5 text-blue-gray-500" />
               </IconButton>
             </Link>
 

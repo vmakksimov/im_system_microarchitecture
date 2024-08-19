@@ -110,7 +110,13 @@ export function Tables() {
   };
 
   const changeButtonValue = (e) => {
-    dispatch(setButtonValue(e.target.textContent));
+    console.log('changeButtonValue', e.target.textContent === '');
+    if (e.target.textContent === ''){
+      dispatch(setButtonValue('ADD Candidate'));
+    }else{
+      dispatch(setButtonValue(e.target.textContent));
+    }
+    
   };
 
   const setCandidate = (data) => {

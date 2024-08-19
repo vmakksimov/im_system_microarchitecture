@@ -79,7 +79,7 @@ export function Home() {
                 <CardHeader floated={false} className="relative h-56">
                   <img
                     alt="Card Image"
-                    src="/img/teamwork.png"
+                    src="/img/quick.png"
                     className="h-full w-full"
                   />
                 </CardHeader>
@@ -162,7 +162,7 @@ export function Home() {
             Complete this form and we will get back to you in 24 hours.
           </PageTitle>
           <form className="mx-auto w-full mt-12 lg:w-5/12">
-            <div className="mb-8 flex gap-8">
+            <div className="mb-8 flex flex-col sm:flex-row gap-8">
               <Input variant="outlined" size="lg" label="Full Name" />
               <Input variant="outlined" size="lg" label="Email Address" />
             </div>

@@ -1,14 +1,8 @@
 import os
-from django.shortcuts import render
-from django.shortcuts import redirect
-from django.conf import settings
-from django.contrib.auth import login
 from django.contrib.auth import logout
 from django.contrib.auth.hashers import make_password
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
-from django.http import JsonResponse
-from rest_framework_simplejwt.tokens import RefreshToken
 from django.middleware.csrf import get_token
 from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
@@ -59,7 +53,6 @@ class GoogleLoginApi(APIView):
         user = CustomModelUser.objects.get(email=user_data['email'])
         token = user_data['token']
         frontend_url = os.environ.get("BASE_APP_URL")
-        csrf_token = get_token(request)
         
         # Create a temporary, secure cookie with the token
         response = HttpResponseRedirect(frontend_url + '/auth-callback')
