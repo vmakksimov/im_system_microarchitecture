@@ -75,7 +75,7 @@ export function EditCandidateInfo({ close, candidate, candidateData}) {
                     <Typography variant="h2" className="font-bold mb-4">Edit Candidate</Typography>
                     <Typography variant="paragraph" color="blue-gray" className="text-lg font-normal">Fill the form below:</Typography>
                 </div>
-                <form className="mt-8 mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2" onSubmit={handleSubmit}>
+                <form className="mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2" onSubmit={handleSubmit}>
                     <div className="mb-1 flex flex-col gap-6">
                         <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">Role</Typography>
                         <select

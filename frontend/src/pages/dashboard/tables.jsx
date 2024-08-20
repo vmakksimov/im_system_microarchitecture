@@ -154,7 +154,7 @@ export function Tables() {
           </CardHeader>
           <CardBody className="overflow-x-scroll px-0 pt-0 pb-2">
             <table className="w-full min-w-[640px] table-auto">
-              <thead>
+              <thead className='table-auto hidden lg:table'>
                 <tr>
                   {["candidate", "role", "status", "interview date", "stage", ""].map((el) => (
                     <th

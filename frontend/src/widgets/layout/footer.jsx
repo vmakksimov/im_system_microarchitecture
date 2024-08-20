@@ -132,12 +132,12 @@ Footer.defaultProps = {
           path: "https://github.com/creativetimofficial/material-tailwind/blob/main/CONTRIBUTING.md?ref=mtk",
         },
         {
-          name: "Change Log",
-          path: "https://github.com/creativetimofficial/material-tailwind/blob/main/CHANGELOG.md?ref=mtk",
+          name: "Terms & Conditions",
+          path: "/terms.html",
         },
         {
-          name: "Contact Us",
-          path: "https://creative-tim.com/contact-us?ref=mtk",
+          name: "Privacy Policy",
+          path: "/privacy.html",
         },
       ],
     },

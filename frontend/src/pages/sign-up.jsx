@@ -128,7 +128,7 @@ export const SignUp = () => {
                             >
                                 I agree to the&nbsp;
                                 <a
-                                    href="#"
+                                    href="/terms.html"
                                     className="font-normal text-black transition-colors hover:text-gray-900 underline"
                                 >
                                     Terms and Conditions
@@ -137,7 +137,7 @@ export const SignUp = () => {
                         }
                         containerProps={{ className: "-ml-2.5" }}
                     />
-                    <Button className="mt-6" fullWidth type="submit">
+                    <Button className="mt-6" fullWidth type="submit" style={{color: "white"}}>
                         Sign Up
                     </Button>
 
@@ -154,9 +154,9 @@ export const SignUp = () => {
                             }
                             containerProps={{ className: "-ml-2.5" }}
                         />
-                        <Typography variant="small" className="font-medium text-gray-900">
+                        {/* <Typography variant="small" className="font-medium text-gray-900">
                             <a href="#">Forgot Password</a>
-                        </Typography>
+                        </Typography> */}
                     </div>
                     <div className="space-y-4 mt-8">
                         <Button size="lg" color="white" className="flex items-center gap-2 justify-center shadow-md" fullWidth onClick={handleGoogleLogin}>

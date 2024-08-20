@@ -66,13 +66,13 @@ export function AddCandidate({ close, addCandidate }) {
             <div className="form-background">
                 <button id="close-button" onClick={close}>X</button>
                 <div className="text-center">
-                    <Typography variant="h2" className="font-bold mb-4">Add Candidate</Typography>
-                    <Typography variant="paragraph" color="blue-gray" className="text-lg font-normal">Fill the form below:</Typography>
+                    <Typography variant="h2" className="font-bold mb-2">Add Candidate</Typography>
+                    {/* <Typography variant="paragraph" color="blue-gray" className="text-lg font-normal">Fill the form below:</Typography> */}
                 </div>
                 {hasEmptyValues(formData) && <p style={{ color: "red", marginLeft: "26px", marginTop: "4px" }}>All the fields below are required!</p>}
-                <form className="mt-8 mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2" onSubmit={handleSubmit}>
+                <form className="mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2" onSubmit={handleSubmit}>
 
-                    <div className="mb-1 flex flex-col gap-6">
+                    <div className="mb-1 flex flex-col gap-4">
                         <Typography variant="small" color="blue-gray" className="-mb-5 font-medium">
                             Email
                         </Typography>
